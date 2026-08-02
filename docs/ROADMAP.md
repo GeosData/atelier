@@ -13,16 +13,16 @@
 ## exam (gradecheck) — próximo foco
 Discovery completo en `docs/products/exam/` (00-04). Diferencial verificado por scout: nadie hace mastery-check (ni Gradescope ni apps LATAM). 
 - [x] Probar `/process/exam` → mastery-check dispara bien (examen sintético patrón aberrante: flageó difíciles-correctas, `overall_mastery_confidence` 0.3, alerta "acertó difíciles, falló fáciles"). Pendiente: repetir con foto de examen manuscrito real.
-- [ ] Soporte PDF: `03-alcance` pide imagen Y PDF, pero `exam.py` solo acepta jpg/png/webp. Agregar `application/pdf` a `accepted_mime` (Gemini lo lee nativo).
-- [ ] Clonar `web/index.html` → landing exam apuntando a `/process/exam` (hoy la web es receipt-only, hardcodeada).
-- [ ] Cerrar nombre público del producto (`gradecheck` vs realgrade/gradelens, ver 02-nombres)
+- [x] Soporte PDF: `accepted_mime` de exam y receipt incluye `application/pdf`; verificado e2e con PDF real (calificó + flageó difícil-correcta).
+- [x] Landing: `web/product.html?p=exam` genérica (lee `/products`), no hay que clonar nada. Falta solo copy/nombre público en el subtítulo.
+- [ ] Cerrar nombre público del producto (`gradecheck` vs realgrade/gradelens, ver 02-nombres) → hoy el subtítulo sale del `Product.subtitle`.
 
 ## Gobernanza / infra (transversal)
 - [x] Repo git local
 - [x] Repo remoto GitHub `GeosData/atelier` + push (SSH, rama `main`)
 - [ ] Deploy: api → Cloud Run, web → CF Pages (wrangler)
 - [x] Nombre final de la fábrica: `atelier` (confirmado Josse)
-- [ ] Robustez deploy: el provider Gemini devuelve 503 en picos de demanda (visto en test); agregar retry/backoff propio antes de exponer demo pública
+- [x] Robustez: provider Gemini reintenta 429/500/503 con backoff exponencial (4 intentos)
 - [ ] Tracker Linear (team GeosData) — este ROADMAP.md es puente hasta entonces
 - [ ] Subdominio por producto (o dominio propio si crece)
 
