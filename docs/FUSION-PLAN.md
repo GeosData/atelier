@@ -30,6 +30,20 @@
 5. **[gated] Cutover DNS** geosdata.com → deploy Astro de atelier. Verificar en pages.dev primero. Solo con go de Josse.
 6. **[gated] Retirar geosdata-com** (repo/deploy) solo tras cutover verificado.
 
+## Conexión distribuidora → productos (plan Camino 1, gated, listo para go)
+
+Estado 2026-08-02: geosdata.com (CF Pages `geosdata-com`, repo `F:\geosdata\geosdata-com`) NO menciona atelier — desconectado. Su taller (`Home.astro §taller`) lista cards desde `i18n/home.ts` (`cards[].href` → sus propias `/soluciones/*`). Las calculadoras existen en LOS DOS dominios = contenido duplicado; y las páginas de calculadora en atelier tienen `canonical` → geosdata.com (heredado de la copia).
+
+**Camino 1 (recomendado, atelier dueño de las tools). Pasos concretos:**
+1. **atelier**: cambiar el `canonical` de las 14 tool pages → su URL en atelier.geosdata.com (hoy apunta a geosdata.com). Redeploy atelier.
+2. **geosdata-com** `i18n/home.ts`: repuntar `cards[].href` de las calculadoras → `https://atelier.geosdata.com/soluciones/<slug>/`; agregar las 4 tools IA como cards nuevas apuntando a atelier; CTA "todas las herramientas" → atelier.
+3. **geosdata-com** redirects: crear `public/_redirects` con `301` de `/soluciones/* → https://atelier.geosdata.com/soluciones/:splat` (CF Pages soporta `_redirects`). Verifica que el splat mapea (los slugs son idénticos, vinieron de ahí).
+4. **geosdata-com**: borrar las páginas `src/pages/soluciones/*.astro` (quedan cubiertas por el redirect). Blog/vitrinas/marketing se quedan.
+5. Build + deploy geosdata-com (wrangler, proyecto `geosdata-com`). Verificar: geosdata.com/soluciones/<x> → 301 → atelier; taller linkea a atelier; geosdata.com marketing intacto.
+6. Riesgo/rollback: es el sitio vivo principal. Verificar redirects en preview antes de main. Rollback = revertir `_redirects` + restaurar páginas (git).
+
+**Camino 2 (fallback):** solo repuntar taller + CTA, sin redirect ni borrar; deja duplicado, canonical se queda en geosdata. Cero riesgo, menos limpio.
+
 ## Reglas de seguridad
 
 - geosdata.com sigue sirviendo vivo hasta el paso 5 verificado.
