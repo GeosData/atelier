@@ -1,0 +1,57 @@
+---
+import LugantesBase from '../../../layouts/apps/LugantesBase.astro';
+import Header from '../../../components/apps/lugantes/Header.astro';
+import Footer from '../../../components/apps/lugantes/Footer.astro';
+import { config } from '../../../data/apps/lugantes';
+---
+<LugantesBase title="Política de Privacidad" description={`Política de privacidad de ${config.name}.`}>
+  <Header />
+  <main class="legal">
+    <div class="container">
+      <h1>Política de Privacidad</h1>
+      <p class="meta">Vigente desde: {config.privacyEffectiveDate} · Publicador: {config.publisher}</p>
+
+      <h2>1. Datos que recopilamos</h2>
+      <ul>
+        {config.dataCollected.map((d) => (
+          <li><strong>{d.type}</strong> — {d.purpose}{d.optional ? ' (opcional)' : ''}.</li>
+        ))}
+      </ul>
+
+      <h2>2. Para qué usamos los datos</h2>
+      <p>Operar la app, prevenir fraudes, mejorar rendimiento, mostrar anuncios. No vendemos tus datos.</p>
+
+      <h2>3. Terceros</h2>
+      <ul>{config.thirdParties.map((t) => (<li>{t}</li>))}</ul>
+
+      <h2>4. Almacenamiento</h2>
+      <p>Crashlytics 90 días. AdMob según política Google. Datos de usuario en Firebase US/EU.</p>
+
+      <h2>5. AdMob y publicidad</h2>
+      <p>Usamos Google AdMob. AdMob recopila identificador publicitario para mostrar anuncios. Puedes restablecerlo en ajustes Android.</p>
+
+      <h2>6. Tus derechos</h2>
+      <p>Solicitar acceso, corrección o eliminación de tus datos escribiendo a <a href={`mailto:${config.contactEmail}`}>{config.contactEmail}</a>.</p>
+
+      <h2>7. Menores</h2>
+      <p>App apta mayores de 13 años. No recopilamos datos de menores conscientemente.</p>
+
+      <h2>8. Cambios</h2>
+      <p>Publicaremos actualizaciones en esta página. Cambios mayores notificados in-app.</p>
+
+      <h2>9. Contacto</h2>
+      <p><a href={`mailto:${config.contactEmail}`}>{config.contactEmail}</a></p>
+    </div>
+  </main>
+  <Footer />
+</LugantesBase>
+
+<style>
+  .legal { padding: 3rem 0 4rem; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.5rem; }
+  h1 { color: var(--text-strong); font-size: 2rem; margin-bottom: 0.4rem; }
+  h2 { color: var(--text-strong); font-size: 1.2rem; margin: 2rem 0 0.6rem; }
+  .meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  ul { padding-left: 1.2rem; }
+  li { margin-bottom: 0.4rem; }
+</style>

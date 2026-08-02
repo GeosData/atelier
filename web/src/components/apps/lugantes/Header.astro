@@ -1,0 +1,53 @@
+---
+import { config } from '../../../data/apps/lugantes';
+---
+<header class="header">
+  <div class="container">
+    <a href="/apps/lugantes" class="brand">
+      <span class="brand-icon">{config.iconLetter}</span>
+      <span class="brand-name">{config.name}</span>
+    </a>
+    <nav class="nav">
+      <a href="/apps/lugantes#features">Características</a>
+      <a href="/apps/lugantes#download">Descargar</a>
+      <a href="/apps/lugantes/privacidad">Privacidad</a>
+      <a href="/" class="back">← Geosdata</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(3, 7, 18, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .brand { display: flex; align-items: center; gap: 0.6rem; color: var(--text-strong); font-weight: 700; }
+  .brand:hover { text-decoration: none; }
+  .brand-icon {
+    width: 32px; height: 32px;
+    display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #0b0712; border-radius: 8px;
+    font-weight: 800;
+  }
+  .nav { display: flex; gap: 1.5rem; align-items: center; }
+  .nav a { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; }
+  .nav a:hover { color: var(--text-strong); text-decoration: none; }
+  .nav .back { color: var(--accent); }
+  @media (max-width: 640px) {
+    .nav { gap: 0.9rem; }
+    .nav a:not(.back) { display: none; }
+  }
+</style>

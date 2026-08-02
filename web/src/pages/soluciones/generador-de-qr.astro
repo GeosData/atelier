@@ -1,0 +1,322 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource/ibm-plex-mono/700.css';
+
+const title = 'Generador de código QR gratis';
+const description = 'Crea un código QR gratis para tu negocio: link de WhatsApp, WiFi, teléfono o cualquier URL. Descárgalo en PNG de alta calidad, sin registro ni marcas de agua.';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://geosdata.com/soluciones/generador-de-qr/" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <title>{title} · Geosdata</title>
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+          <span class="mark">GEOSDATA</span>
+        </a>
+        <a class="back" href="/">← Inicio</a>
+      </header>
+
+      <main class="tool">
+        <section class="intro">
+          <p class="eyebrow">Producto · código QR</p>
+          <h1>Crea el QR de tu negocio en un minuto</h1>
+          <p class="lead">
+            Un QR para que te escriban por WhatsApp, se conecten a tu WiFi o abran tu link. Lo generas aquí y lo
+            descargas en PNG para pegarlo en el mostrador, el volante o la vitrina. Gratis y sin marcas.
+          </p>
+        </section>
+
+        <section class="calculator">
+          <form id="qr-form" class="rec-form" novalidate>
+            <div class="field">
+              <label for="type">Tipo de QR</label>
+              <select id="type" name="type">
+                <option value="url" selected>URL o texto</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="wifi">WiFi</option>
+                <option value="phone">Teléfono</option>
+              </select>
+            </div>
+
+            <div class="type-fields" data-type="url">
+              <div class="field">
+                <label for="url">Enlace o texto</label>
+                <input type="text" id="url" placeholder="https://tunegocio.com" />
+              </div>
+            </div>
+
+            <div class="type-fields" data-type="whatsapp" hidden>
+              <div class="grid2">
+                <div class="field">
+                  <label for="wa-num">Número <span>(con indicativo, ej. 57 300…)</span></label>
+                  <input type="text" id="wa-num" placeholder="57 300 000 0000" />
+                </div>
+                <div class="field">
+                  <label for="wa-msg">Mensaje precargado <span>(opcional)</span></label>
+                  <input type="text" id="wa-msg" placeholder="Hola, vi tu negocio y…" />
+                </div>
+              </div>
+            </div>
+
+            <div class="type-fields" data-type="wifi" hidden>
+              <div class="grid2">
+                <div class="field">
+                  <label for="wifi-ssid">Nombre de la red (SSID)</label>
+                  <input type="text" id="wifi-ssid" placeholder="MiNegocio_WiFi" />
+                </div>
+                <div class="field">
+                  <label for="wifi-pass">Contraseña</label>
+                  <input type="text" id="wifi-pass" placeholder="clave123" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="wifi-sec">Seguridad</label>
+                <select id="wifi-sec">
+                  <option value="WPA" selected>WPA/WPA2</option>
+                  <option value="WEP">WEP</option>
+                  <option value="nopass">Sin contraseña</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="type-fields" data-type="phone" hidden>
+              <div class="field">
+                <label for="phone">Número de teléfono</label>
+                <input type="text" id="phone" placeholder="57 300 000 0000" />
+              </div>
+            </div>
+
+            <button type="submit">Generar QR</button>
+          </form>
+
+          <div id="qr-result" class="qr-result" hidden>
+            <canvas id="qr-canvas" width="320" height="320" aria-label="Código QR generado"></canvas>
+            <button type="button" id="download">Descargar PNG</button>
+          </div>
+        </section>
+
+        <section id="hook" class="hook" hidden>
+          <h2>¿Te sirvió?</h2>
+          <p>
+            Si quieres un QR que además cuente cuánta gente lo escanea, o que lleve a un mini-sitio con tu catálogo y tu
+            WhatsApp, escríbeme y lo miramos.
+          </p>
+          <form id="hook-form" class="hook-form" novalidate>
+            <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="hook-row">
+              <input type="text" name="name" placeholder="Tu nombre" required />
+              <input type="email" name="email" placeholder="tu@correo.com" required />
+            </div>
+            <textarea name="message" rows="3" placeholder="Cuéntame de tu negocio y para qué quieres el QR." required></textarea>
+            <button type="submit">Escríbeme</button>
+            <p id="hook-status" class="hook-status" role="status"></p>
+          </form>
+        </section>
+
+        <section class="notes">
+          <h2>Cómo funciona</h2>
+          <ul>
+            <li>El QR se genera en tu navegador; no guardamos ni tu WiFi ni tu número.</li>
+            <li>Es un QR estático: apunta directo al link, WhatsApp o red. No caduca y no depende de ningún servidor.</li>
+            <li>Descárgalo en PNG e imprímelo del tamaño que quieras; el QR se mantiene nítido.</li>
+          </ul>
+          <p class="disclaimer">
+            Un QR estático no se puede editar después de imprimirlo (si cambias el número, toca generar otro). Para uno
+            editable o con estadísticas de escaneo, se necesita un servicio detrás — eso ya es un producto a la medida.
+          </p>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <span class="mark">GEOSDATA</span>
+        <p>Productos digitales enfocados en problemas comunes.</p>
+        <span class="foot-mono">geosdata.com</span>
+      </footer>
+    </div>
+
+    <script>
+      import QRCode from 'qrcode';
+
+      const form = document.getElementById('qr-form');
+      const typeSelect = document.getElementById('type');
+      const result = document.getElementById('qr-result');
+      const canvas = document.getElementById('qr-canvas');
+      const hook = document.getElementById('hook');
+
+      function showFields(type) {
+        document.querySelectorAll('.type-fields').forEach((el) => {
+          el.hidden = el.getAttribute('data-type') !== type;
+        });
+      }
+      typeSelect.addEventListener('change', () => showFields(typeSelect.value));
+
+      const digits = (s) => (s || '').replace(/[^0-9]/g, '');
+      const wifiEscape = (s) => (s || '').replace(/([\\;,:"])/g, '\\$1');
+
+      function buildPayload() {
+        const type = typeSelect.value;
+        if (type === 'whatsapp') {
+          const num = digits(document.getElementById('wa-num').value);
+          if (!num) return null;
+          const msg = document.getElementById('wa-msg').value.trim();
+          return `https://wa.me/${num}${msg ? `?text=${encodeURIComponent(msg)}` : ''}`;
+        }
+        if (type === 'wifi') {
+          const ssid = document.getElementById('wifi-ssid').value.trim();
+          if (!ssid) return null;
+          const sec = document.getElementById('wifi-sec').value;
+          const pass = document.getElementById('wifi-pass').value;
+          if (sec === 'nopass') return `WIFI:T:nopass;S:${wifiEscape(ssid)};;`;
+          return `WIFI:T:${sec};S:${wifiEscape(ssid)};P:${wifiEscape(pass)};;`;
+        }
+        if (type === 'phone') {
+          const num = digits(document.getElementById('phone').value);
+          return num ? `tel:+${num}` : null;
+        }
+        const url = document.getElementById('url').value.trim();
+        return url || null;
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const payload = buildPayload();
+        if (!payload) {
+          alert('Completa los datos del QR.');
+          return;
+        }
+        try {
+          await QRCode.toCanvas(canvas, payload, {
+            width: 320,
+            margin: 2,
+            color: { dark: '#17201b', light: '#ffffff' },
+            errorCorrectionLevel: 'M',
+          });
+          result.hidden = false;
+          hook.hidden = false;
+        } catch {
+          alert('No se pudo generar el QR. Revisa los datos e inténtalo de nuevo.');
+        }
+      });
+
+      document.getElementById('download').addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = 'codigo-qr.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+
+      const hookForm = document.getElementById('hook-form');
+      const hookStatus = document.getElementById('hook-status');
+      hookForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const button = hookForm.querySelector('button');
+        button.disabled = true;
+        hookStatus.textContent = 'Enviando...';
+        try {
+          const payload = {
+            name: hookForm.elements['name'].value,
+            email: hookForm.elements['email'].value,
+            subject: 'Generador de QR — mi caso',
+            message: hookForm.elements['message'].value,
+            company: hookForm.elements['company'].value,
+          };
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await response.json();
+          hookStatus.textContent = response.ok && data.ok
+            ? (hookForm.reset(), 'Listo, te respondo pronto. Gracias.')
+            : 'No se pudo enviar. Inténtalo de nuevo en un momento.';
+        } catch {
+          hookStatus.textContent = 'No se pudo enviar. Inténtalo de nuevo en un momento.';
+        } finally {
+          button.disabled = false;
+        }
+      });
+    </script>
+
+    <style is:global>
+      :root {
+        --paper: #f1f1ec; --paper-2: #eceae3; --ink: #17201b; --ink-soft: #5b625b;
+        --line: #d5d4cb; --accent: #0f6e4e; --accent-ink: #0a4d36; --accent-soft: #e2ede7; --warn: #8a5109;
+        --font-mono: 'IBM Plex Mono', ui-monospace, "Consolas", monospace;
+        --font-sans: 'Archivo Variable', system-ui, -apple-system, "Segoe UI", sans-serif;
+        --wrap: 780px;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+      .top { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2rem); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+      .brand { text-decoration: none; display: flex; align-items: center; gap: 0.55rem; }
+      .brand-mark { display: inline-flex; color: var(--accent-ink); }
+      .brand-mark svg { width: 20px; height: 20px; }
+      .mark { font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.06em; color: var(--ink); font-size: 1rem; }
+      .back { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-soft); text-decoration: none; }
+      .back:hover { color: var(--accent-ink); }
+
+      .tool { max-width: var(--wrap); margin: 0 auto; padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2rem) 5rem; display: flex; flex-direction: column; gap: 2.5rem; }
+      .eyebrow { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72rem; color: var(--accent-ink); margin-bottom: 1rem; }
+      h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); color: var(--ink); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 1.1rem; font-weight: 800; text-wrap: balance; }
+      .lead { font-size: 1.08rem; color: #2c332c; max-width: 60ch; }
+
+      .rec-form { display: grid; gap: 1.1rem; background: #fff; border: 1px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); padding: 1.8rem; }
+      .type-fields { display: grid; gap: 1.1rem; }
+      .field { display: flex; flex-direction: column; gap: 0.4rem; }
+      .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+      .field label { font-family: var(--font-mono); color: var(--ink-soft); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; }
+      .field label span { text-transform: none; letter-spacing: 0; color: var(--ink-soft); }
+      input, select { font-family: var(--font-mono); padding: 0.7rem 0.8rem; background: var(--paper); border: 1px solid var(--line); color: var(--ink); font-size: 0.95rem; width: 100%; }
+      input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+      button[type="submit"] { font-family: var(--font-mono); padding: 0.85rem 1.4rem; background: var(--accent); color: #fff; border: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.02em; cursor: pointer; transition: background 0.2s; justify-self: start; }
+      button[type="submit"]:hover { background: var(--accent-ink); }
+
+      .qr-result { margin-top: 1.4rem; background: #fff; border: 1px solid var(--ink); padding: 1.8rem; display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
+      #qr-canvas { width: 260px; height: 260px; image-rendering: pixelated; }
+      #download { font-family: var(--font-mono); padding: 0.8rem 1.3rem; background: var(--ink); color: var(--paper); border: none; font-weight: 600; font-size: 0.88rem; cursor: pointer; }
+      #download:hover { background: var(--accent-ink); }
+
+      .hook { background: var(--accent-soft); border: 1px solid var(--accent); padding: 1.8rem; }
+      .hook h2 { color: var(--accent-ink); font-size: 1.35rem; margin-bottom: 0.6rem; letter-spacing: -0.01em; }
+      .hook p { color: #2c332c; }
+      .hook-form { display: grid; gap: 0.9rem; margin-top: 1.2rem; }
+      .hook-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+      .hook-form input, .hook-form textarea { background: #fff; border-color: var(--accent); font-family: var(--font-mono); padding: 0.7rem 0.8rem; border: 1px solid var(--accent); color: var(--ink); font-size: 0.95rem; width: 100%; }
+      .hook-status { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-ink); min-height: 1.1rem; }
+      .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+      .notes h2 { color: var(--ink); font-size: 1.2rem; margin-bottom: 1rem; letter-spacing: -0.01em; }
+      .notes ul { padding-left: 1.2rem; display: grid; gap: 0.6rem; margin-bottom: 1.25rem; color: #2c332c; }
+      .notes strong { color: var(--ink); }
+      .disclaimer { font-size: 0.85rem; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 1rem; }
+
+      .foot { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2rem) 3rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+      .foot p { color: var(--ink-soft); font-size: 0.86rem; flex: 1; min-width: 180px; }
+      .foot-mono { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; color: var(--ink-soft); }
+
+      a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+      @media (max-width: 560px) { .grid2 { grid-template-columns: 1fr; } .hook-row { grid-template-columns: 1fr; } }
+    </style>
+  </body>
+</html>

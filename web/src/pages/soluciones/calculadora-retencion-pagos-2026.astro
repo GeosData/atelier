@@ -1,0 +1,279 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource/ibm-plex-mono/700.css';
+
+const title = 'Calculadora de retención en la fuente por pagos 2026';
+const description = 'Calcula gratis cuánta retención en la fuente debes practicar en un pago 2026 en Colombia: compras, servicios, honorarios y arrendamientos, con las bases y tarifas vigentes.';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://geosdata.com/soluciones/calculadora-retencion-pagos-2026/" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <title>{title} · Geosdata</title>
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+          <span class="mark">GEOSDATA</span>
+        </a>
+        <a class="back" href="/">← Inicio</a>
+      </header>
+
+      <main class="tool">
+        <section class="intro">
+          <p class="eyebrow">Producto · retención en la fuente</p>
+          <h1>¿Cuánta retención debes practicar en un pago?</h1>
+          <p class="lead">
+            Cuando le pagas a un proveedor, a veces toca retener y a veces no: depende del concepto, del monto y de si
+            supera la base mínima. Elige el concepto, pon el valor del pago y ve la retención exacta.
+          </p>
+        </section>
+
+        <section class="calculator">
+          <form id="pay-form" class="rec-form" novalidate>
+            <div class="field">
+              <label for="concept">Concepto del pago</label>
+              <select id="concept" name="concept">
+                <option value="compra" selected>Compra de bienes o productos</option>
+                <option value="servicio">Servicios generales</option>
+                <option value="honorarios">Honorarios y comisiones</option>
+                <option value="arrInmueble">Arrendamiento de inmueble</option>
+                <option value="arrMueble">Arrendamiento de bien mueble</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="amount">Valor del pago, antes de IVA (COP)</label>
+              <input type="number" id="amount" name="amount" min="0" step="1000" placeholder="1000000" required />
+            </div>
+
+            <div class="field">
+              <label for="declarant">¿El proveedor declara renta o es persona jurídica?</label>
+              <select id="declarant" name="declarant">
+                <option value="yes" selected>Sí</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <button type="submit">Calcular</button>
+          </form>
+
+          <div id="pay-result" class="rec-result" hidden></div>
+        </section>
+
+        <section id="hook" class="hook" hidden>
+          <h2>¿Te sirvió?</h2>
+          <p>
+            Esto resuelve un pago. Si manejas cuentas por pagar y quieres las retenciones, los certificados y el reporte
+            del mes listos solos, escríbeme y lo miramos.
+          </p>
+          <form id="hook-form" class="hook-form" novalidate>
+            <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="hook-row">
+              <input type="text" name="name" placeholder="Tu nombre" required />
+              <input type="email" name="email" placeholder="tu@correo.com" required />
+            </div>
+            <textarea name="message" rows="3" placeholder="Cuéntame de tu caso: cuántos pagos al mes, cómo llevas las retenciones hoy." required></textarea>
+            <button type="submit">Escríbeme</button>
+            <p id="hook-status" class="hook-status" role="status"></p>
+          </form>
+        </section>
+
+        <section class="notes">
+          <h2>Bases y tarifas (vigentes desde julio 2026)</h2>
+          <ul>
+            <li><strong>Compra de bienes:</strong> desde 10 UVT ($523.740). 2,5% si el proveedor declara renta, 3,5% si no.</li>
+            <li><strong>Servicios generales:</strong> desde 2 UVT ($104.748). 4% declarante, 6% no declarante.</li>
+            <li><strong>Honorarios y comisiones:</strong> sin base mínima. 11% personas jurídicas y naturales declarantes, 10% naturales no declarantes.</li>
+            <li><strong>Arrendamiento de inmueble:</strong> desde 10 UVT ($523.740). 3,5%.</li>
+            <li><strong>Arrendamiento de bien mueble:</strong> sin base mínima. 4%.</li>
+          </ul>
+          <p class="disclaimer">
+            Cálculo orientativo con UVT 2026 = $52.374. Las cuantías mínimas provienen del Decreto 572 de 2025, que rige
+            desde el 1 de julio de 2026 (Auto del Consejo de Estado, exp. 30229 del 2 de junio de 2026). La retención se
+            calcula sobre el valor del pago <strong>antes de IVA</strong>. No cubre conceptos especiales (productos
+            agrícolas, transporte, restaurantes, loterías, rendimientos financieros, etc.) ni retención de IVA o ICA.
+            Antes de aplicarlo en contabilidad, verifica con las fuentes de la DIAN.
+          </p>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <span class="mark">GEOSDATA</span>
+        <p>Productos digitales enfocados en problemas comunes.</p>
+        <span class="foot-mono">geosdata.com</span>
+      </footer>
+    </div>
+
+    <script is:inline>
+      const UVT = 52374;
+      const CONCEPTS = {
+        compra: { label: 'Compra de bienes o productos', baseUVT: 10, decl: 0.025, noDecl: 0.035, usaDecl: true },
+        servicio: { label: 'Servicios generales', baseUVT: 2, decl: 0.04, noDecl: 0.06, usaDecl: true },
+        honorarios: { label: 'Honorarios y comisiones', baseUVT: 0, decl: 0.11, noDecl: 0.1, usaDecl: true },
+        arrInmueble: { label: 'Arrendamiento de inmueble', baseUVT: 10, decl: 0.035, noDecl: 0.035, usaDecl: false },
+        arrMueble: { label: 'Arrendamiento de bien mueble', baseUVT: 0, decl: 0.04, noDecl: 0.04, usaDecl: false },
+      };
+
+      const money = (value) =>
+        new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(Math.round(value));
+
+      const percent = (rate) => `${(rate * 100).toLocaleString('es-CO', { maximumFractionDigits: 1 })}%`;
+
+      function renderResult(conceptKey, amount, isDeclarant, result) {
+        const c = CONCEPTS[conceptKey];
+        const baseMin = c.baseUVT * UVT;
+        const tarifa = isDeclarant ? c.decl : c.noDecl;
+        const applies = amount >= baseMin;
+        const retencion = applies ? amount * tarifa : 0;
+
+        let html = `<div class="line"><span>Concepto</span><b>${c.label}</b></div>`;
+        html += `<div class="line"><span>Base mínima para retener</span><b>${c.baseUVT > 0 ? `${money(baseMin)} (${c.baseUVT} UVT)` : 'Sin mínimo'}</b></div>`;
+        html += `<div class="line"><span>Tarifa aplicada</span><b>${percent(tarifa)}</b></div>`;
+
+        if (!applies) {
+          html += `<div class="line total"><span>Retención a practicar</span><b>${money(0)}</b></div>`;
+          html += `<p class="ok-note">El pago (${money(amount)}) no supera la base mínima de ${money(baseMin)}, así que no se practica retención por este concepto.</p>`;
+        } else {
+          html += `<div class="line total"><span>Retención a practicar</span><b>${money(retencion)}</b></div>`;
+          html += `<p class="ok-note">Le pagas al proveedor ${money(amount - retencion)} y trasladas ${money(retencion)} a la DIAN.</p>`;
+        }
+
+        result.innerHTML = html;
+        result.hidden = false;
+      }
+
+      const form = document.getElementById('pay-form');
+      const result = document.getElementById('pay-result');
+      const hook = document.getElementById('hook');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const amount = parseFloat(form.elements['amount'].value);
+        if (!Number.isFinite(amount) || amount <= 0) {
+          result.innerHTML = '<div class="line"><span>Ingresa un valor de pago válido.</span></div>';
+          result.hidden = false;
+          return;
+        }
+        renderResult(form.elements['concept'].value, amount, form.elements['declarant'].value === 'yes', result);
+        hook.hidden = false;
+      });
+
+      const hookForm = document.getElementById('hook-form');
+      const hookStatus = document.getElementById('hook-status');
+
+      hookForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const button = hookForm.querySelector('button');
+        button.disabled = true;
+        hookStatus.textContent = 'Enviando...';
+        try {
+          const payload = {
+            name: hookForm.elements['name'].value,
+            email: hookForm.elements['email'].value,
+            subject: 'Retención pagos — mi caso',
+            message: hookForm.elements['message'].value,
+            company: hookForm.elements['company'].value,
+          };
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await response.json();
+          if (response.ok && data.ok) {
+            hookForm.reset();
+            hookStatus.textContent = 'Listo, te respondo pronto. Gracias.';
+          } else {
+            hookStatus.textContent = 'No se pudo enviar. Inténtalo de nuevo en un momento.';
+          }
+        } catch {
+          hookStatus.textContent = 'No se pudo enviar. Inténtalo de nuevo en un momento.';
+        } finally {
+          button.disabled = false;
+        }
+      });
+    </script>
+
+    <style is:global>
+      :root {
+        --paper: #f1f1ec; --paper-2: #eceae3; --ink: #17201b; --ink-soft: #5b625b;
+        --line: #d5d4cb; --accent: #0f6e4e; --accent-ink: #0a4d36; --accent-soft: #e2ede7; --warn: #8a5109;
+        --font-mono: 'IBM Plex Mono', ui-monospace, "Consolas", monospace;
+        --font-sans: 'Archivo Variable', system-ui, -apple-system, "Segoe UI", sans-serif;
+        --wrap: 780px;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+      .top { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2rem); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+      .brand { text-decoration: none; display: flex; align-items: center; gap: 0.55rem; }
+      .brand-mark { display: inline-flex; color: var(--accent-ink); }
+      .brand-mark svg { width: 20px; height: 20px; }
+      .mark { font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.06em; color: var(--ink); font-size: 1rem; }
+      .back { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-soft); text-decoration: none; }
+      .back:hover { color: var(--accent-ink); }
+
+      .tool { max-width: var(--wrap); margin: 0 auto; padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2rem) 5rem; display: flex; flex-direction: column; gap: 2.5rem; }
+      .eyebrow { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72rem; color: var(--accent-ink); margin-bottom: 1rem; }
+      h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); color: var(--ink); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 1.1rem; font-weight: 800; text-wrap: balance; }
+      .lead { font-size: 1.08rem; color: #2c332c; max-width: 60ch; }
+
+      .rec-form { display: grid; gap: 1.1rem; background: #fff; border: 1px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); padding: 1.8rem; }
+      .field { display: flex; flex-direction: column; gap: 0.4rem; }
+      .field label { font-family: var(--font-mono); color: var(--ink-soft); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; }
+      .field label span { text-transform: none; letter-spacing: 0; color: var(--ink-soft); }
+      input, select { font-family: var(--font-mono); padding: 0.7rem 0.8rem; background: var(--paper); border: 1px solid var(--line); color: var(--ink); font-size: 0.95rem; width: 100%; }
+      input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+      button { font-family: var(--font-mono); padding: 0.85rem 1.4rem; background: var(--accent); color: #fff; border: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.02em; cursor: pointer; transition: background 0.2s; justify-self: start; }
+      button:hover:not(:disabled) { background: var(--accent-ink); }
+      button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+      .rec-result { background: #fff; border: 1px solid var(--ink); padding: 1.5rem 1.8rem; margin-top: 1.4rem; }
+      .rec-result .line { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
+      .rec-result .line:last-child { border-bottom: none; }
+      .rec-result .line span { color: var(--ink-soft); }
+      .rec-result .line b { color: var(--ink); font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; }
+      .rec-result .total { margin-top: 0.4rem; padding-top: 0.9rem; border-top: 1px dashed var(--line) !important; font-size: 1.05rem; }
+      .rec-result .total b { color: var(--accent-ink); font-size: 1.15rem; }
+      .rec-result .ok-note { margin-top: 1rem; color: var(--accent-ink); font-size: 0.85rem; }
+
+      .hook { background: var(--accent-soft); border: 1px solid var(--accent); padding: 1.8rem; }
+      .hook h2 { color: var(--accent-ink); font-size: 1.35rem; margin-bottom: 0.6rem; letter-spacing: -0.01em; }
+      .hook p { color: #2c332c; }
+      .hook-form { display: grid; gap: 0.9rem; margin-top: 1.2rem; }
+      .hook-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+      .hook-form input, .hook-form textarea { background: #fff; border-color: var(--accent); }
+      .hook-status { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-ink); min-height: 1.1rem; }
+      .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+      .notes h2 { color: var(--ink); font-size: 1.2rem; margin-bottom: 1rem; letter-spacing: -0.01em; }
+      .notes ul { padding-left: 1.2rem; display: grid; gap: 0.6rem; margin-bottom: 1.25rem; color: #2c332c; }
+      .notes strong { color: var(--ink); }
+      .disclaimer { font-size: 0.85rem; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 1rem; }
+
+      .foot { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2rem) 3rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+      .foot p { color: var(--ink-soft); font-size: 0.86rem; flex: 1; min-width: 180px; }
+      .foot-mono { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; color: var(--ink-soft); }
+
+      a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+      @media (max-width: 560px) { .hook-row { grid-template-columns: 1fr; } }
+    </style>
+  </body>
+</html>

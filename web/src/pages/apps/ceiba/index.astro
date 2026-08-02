@@ -1,0 +1,810 @@
+---
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Ceiba - Asistente Inteligente para el Cuidado de Plantas. Aplicación móvil con IA para identificar plantas y diagnosticar problemas de salud." />
+    <link rel="canonical" href="https://geosdata.com/apps/ceiba/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Ceiba - Asistente Inteligente para Plantas | GeosData</title>
+  </head>
+  <body>
+    <Header currentPage="apps" />
+    
+    <main class="main">
+      <section class="project-hero">
+        <div class="container">
+          <div class="hero-content">
+            <div class="hero-text">
+              <h1 class="project-title">🌱 Ceiba</h1>
+              <h2 class="project-subtitle">Asistente Inteligente para el Cuidado de Plantas</h2>
+              <p class="project-description">
+                Aplicación móvil que utiliza inteligencia artificial (GPT-4 Vision) para identificar plantas, diagnosticar problemas de salud y proporcionar consejos personalizados de cuidado.
+              </p>
+              <div class="project-tech-stack">
+                <span class="tech-badge">Flutter</span>
+                <span class="tech-badge">FastAPI</span>
+                <span class="tech-badge">OpenAI GPT-4</span>
+                <span class="tech-badge">PostgreSQL</span>
+                <span class="tech-badge">AWS S3</span>
+                <span class="tech-badge">Redis</span>
+              </div>
+              <div class="hero-actions">
+                <a href="#demo" class="btn btn-primary">Ver Demo</a>
+                <a href="#technical" class="btn btn-secondary">Detalles Técnicos</a>
+              </div>
+            </div>
+            <div class="hero-mockup">
+              <div class="phone-mockup">
+                <div class="phone-screen">
+                  <div class="app-preview">
+                    <div class="app-header">🌱 Ceiba</div>
+                    <div class="app-content">
+                      <div class="plant-card">
+                        <div class="plant-image">🌿</div>
+                        <div class="plant-info">
+                          <h4>Monstera Deliciosa</h4>
+                          <p>Estado: Saludable</p>
+                          <div class="health-indicator healthy"></div>
+                        </div>
+                      </div>
+                      <div class="ai-suggestion">
+                        <p>💡 Tu planta necesita más luz indirecta</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="project-overview">
+        <div class="container">
+          <h3 class="section-title">¿Qué es Ceiba?</h3>
+          <div class="overview-content">
+            <div class="overview-text">
+              <p>
+                <strong>Ceiba</strong> es tu asistente personal inteligente para el cuidado de plantas. Una aplicación móvil que combina tecnología de inteligencia artificial con gestión de jardines para ayudarte a mantener tus plantas saludables y prósperas.
+              </p>
+              <p>
+                La aplicación utiliza <strong>OpenAI GPT-4 Vision</strong> para analizar fotografías de tus plantas, identificar especies, diagnosticar problemas de salud y proporcionar recomendaciones personalizadas de cuidado.
+              </p>
+            </div>
+            <div class="overview-features">
+              <div class="feature-item">
+                <div class="feature-icon">📸</div>
+                <h4>Identificación Automática</h4>
+                <p>Identifica plantas con solo tomar una foto</p>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">🤖</div>
+                <h4>IA Especializada</h4>
+                <p>Diagnóstico de problemas con GPT-4 Vision</p>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <h4>Monitoreo Continuo</h4>
+                <p>Historial detallado de cada planta</p>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">💡</div>
+                <h4>Consejos Personalizados</h4>
+                <p>Recomendaciones basadas en el estado actual</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="technical" class="technical-section">
+        <div class="container">
+          <h3 class="section-title">Arquitectura Técnica</h3>
+          <div class="tech-content">
+            <div class="tech-stack">
+              <h4>Stack Tecnológico</h4>
+              <div class="stack-category">
+                <h5>Frontend (Flutter)</h5>
+                <ul>
+                  <li><strong>Framework:</strong> Flutter 3.19+ con Dart 3.3+</li>
+                  <li><strong>Arquitectura:</strong> Provider pattern para gestión de estado</li>
+                  <li><strong>Estructura:</strong> Clean Architecture con separación por capas</li>
+                  <li><strong>Plataformas:</strong> Android, iOS, Web (responsive design)</li>
+                </ul>
+              </div>
+              <div class="stack-category">
+                <h5>Backend (Python/FastAPI)</h5>
+                <ul>
+                  <li><strong>Framework:</strong> FastAPI con documentación automática</li>
+                  <li><strong>Base de Datos:</strong> PostgreSQL en Supabase</li>
+                  <li><strong>Autenticación:</strong> JWT con refresh tokens</li>
+                  <li><strong>IA:</strong> Integración con OpenAI GPT-4 Vision</li>
+                  <li><strong>Storage:</strong> AWS S3 para imágenes</li>
+                  <li><strong>Cache:</strong> Redis para sesiones</li>
+                </ul>
+              </div>
+            </div>
+            <div class="architecture-diagram">
+              <h4>Arquitectura del Sistema</h4>
+              <div class="diagram">
+                <div class="diagram-layer">
+                  <div class="layer-title">Frontend (Flutter)</div>
+                  <div class="layer-items">
+                    <span class="layer-item">UI Components</span>
+                    <span class="layer-item">State Management</span>
+                    <span class="layer-item">API Client</span>
+                  </div>
+                </div>
+                <div class="diagram-arrow">↓</div>
+                <div class="diagram-layer">
+                  <div class="layer-title">Backend (FastAPI)</div>
+                  <div class="layer-items">
+                    <span class="layer-item">REST API</span>
+                    <span class="layer-item">Authentication</span>
+                    <span class="layer-item">Business Logic</span>
+                  </div>
+                </div>
+                <div class="diagram-arrow">↓</div>
+                <div class="diagram-layer">
+                  <div class="layer-title">Servicios Externos</div>
+                  <div class="layer-items">
+                    <span class="layer-item">OpenAI GPT-4</span>
+                    <span class="layer-item">PostgreSQL</span>
+                    <span class="layer-item">AWS S3</span>
+                    <span class="layer-item">Redis</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features-section">
+        <div class="container">
+          <h3 class="section-title">Funcionalidades Principales</h3>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🌿</div>
+              <h4>Gestión de Jardines</h4>
+              <ul>
+                <li>Organiza tu jardín en zonas personalizadas</li>
+                <li>Registra cada planta con información detallada</li>
+                <li>Seguimiento completo del crecimiento</li>
+                <li>Historial de cuidados para cada planta</li>
+              </ul>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🤖</div>
+              <h4>Asistente de IA</h4>
+              <ul>
+                <li>Identificación instantánea de plantas por foto</li>
+                <li>Diagnóstico de salud con análisis visual</li>
+                <li>Recomendaciones personalizadas de cuidado</li>
+                <li>Chat conversacional con experto virtual</li>
+              </ul>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📊</div>
+              <h4>Monitoreo y Análisis</h4>
+              <ul>
+                <li>Revisiones periódicas con fotos y notas</li>
+                <li>Análisis de progreso a lo largo del tiempo</li>
+                <li>Alertas inteligentes para problemas detectados</li>
+                <li>Reportes visuales del estado del jardín</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="benefits-section">
+        <div class="container">
+          <h3 class="section-title">Beneficios del Producto</h3>
+          <div class="benefits-grid">
+            <div class="benefit-card">
+              <div class="benefit-icon">⏰</div>
+              <h4>Ahorro de Tiempo</h4>
+              <p>Diagnóstico instantáneo vs. investigación manual. Recordatorios automáticos vs. seguimiento manual.</p>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-icon">💰</div>
+              <h4>Reducción de Costos</h4>
+              <p>Prevención de pérdidas por detección temprana. Optimización de recursos (agua, fertilizantes, tiempo).</p>
+            </div>
+            <div class="benefit-card">
+              <div class="benefit-icon">📈</div>
+              <h4>Mejora de Resultados</h4>
+              <p>Plantas más saludables con cuidados precisos. Mayor productividad en cultivos. Aprendizaje continuo con IA.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="demo" class="demo-section">
+        <div class="container">
+          <h3 class="section-title">Casos de Uso</h3>
+          <div class="use-cases">
+            <div class="use-case">
+              <h4>🏠 Hogares y Jardines Residenciales</h4>
+              <p>Plantas de interior, jardines domésticos, huertos familiares y jardines ornamentales.</p>
+            </div>
+            <div class="use-case">
+              <h4>🏢 Agricultura Comercial</h4>
+              <p>Invernaderos, cultivos protegidos, agricultura urbana y vertical, viveros.</p>
+            </div>
+            <div class="use-case">
+              <h4>🎓 Educación e Investigación</h4>
+              <p>Instituciones educativas con programas de botánica, centros de investigación agrícola.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: white;
+    padding-top: 80px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .main {
+    min-height: calc(100vh - 200px);
+  }
+
+  .project-hero {
+    background: linear-gradient(135deg, #20B2AA 0%, #4A90E2 50%, #7B68EE 100%);
+    padding: 4rem 0;
+    color: white;
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .project-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: white;
+  }
+
+  .project-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    color: white;
+    opacity: 0.9;
+  }
+
+  .project-description {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: white;
+    opacity: 0.9;
+  }
+
+  .project-tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .tech-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: white;
+    color: #4A90E2;
+  }
+
+  .btn-primary:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-secondary:hover {
+    background: white;
+    color: #4A90E2;
+  }
+
+  .phone-mockup {
+    width: 250px;
+    height: 500px;
+    background: #1a1a1a;
+    border-radius: 30px;
+    padding: 20px;
+    margin: 0 auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .app-preview {
+    padding: 1rem;
+    height: 100%;
+  }
+
+  .app-header {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #4A90E2;
+  }
+
+  .plant-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .plant-image {
+    font-size: 2rem;
+  }
+
+  .plant-info h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .plant-info p {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .health-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-top: 0.3rem;
+  }
+
+  .health-indicator.healthy {
+    background: #4CAF50;
+  }
+
+  .ai-suggestion {
+    background: #e3f2fd;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: #1976d2;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #333;
+  }
+
+  .project-overview {
+    padding: 4rem 0;
+    background: white;
+  }
+
+  .overview-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .overview-text p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+  }
+
+  .overview-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .feature-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .feature-item h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  .feature-item p {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .technical-section {
+    padding: 4rem 0;
+    background: #f8f9fa;
+  }
+
+  .tech-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .tech-stack h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  .stack-category {
+    margin-bottom: 2rem;
+  }
+
+  .stack-category h5 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #4A90E2;
+  }
+
+  .stack-category ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .stack-category li {
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .stack-category li::before {
+    content: "•";
+    color: #4A90E2;
+    position: absolute;
+    left: 0;
+  }
+
+  .architecture-diagram h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  .diagram {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .diagram-layer {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border-left: 4px solid #4A90E2;
+  }
+
+  .layer-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  .layer-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .layer-item {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 0.3rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+  }
+
+  .diagram-arrow {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #4A90E2;
+    margin: 0.5rem 0;
+  }
+
+  .features-section {
+    padding: 4rem 0;
+    background: white;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .feature-card {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid #e9ecef;
+  }
+
+  .feature-card .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .feature-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .feature-card ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .feature-card li {
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    position: relative;
+    color: #666;
+  }
+
+  .feature-card li::before {
+    content: "✓";
+    color: #4CAF50;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
+
+  .benefits-section {
+    padding: 4rem 0;
+    background: #f8f9fa;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .benefit-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .benefit-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .benefit-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .benefit-card p {
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .demo-section {
+    padding: 4rem 0;
+    background: white;
+  }
+
+  .use-cases {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .use-case {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 15px;
+    border-left: 4px solid #4A90E2;
+  }
+
+  .use-case h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .use-case p {
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .footer {
+    background: #1a1a1a;
+    color: white;
+    padding: 3rem 0 2rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .footer-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-description {
+    margin-bottom: 1.5rem;
+    color: #ccc;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .social-icon {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+  }
+
+  .copyright {
+    color: #999;
+    font-size: 0.9rem;
+  }
+
+  .contact-info {
+    margin-bottom: 0.5rem;
+    color: #ccc;
+  }
+
+  .legal-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .legal-link {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+
+  .legal-link:hover {
+    color: #4A90E2;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      padding-top: 120px;
+    }
+
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .project-title {
+      font-size: 2.5rem;
+    }
+
+    .overview-content {
+      grid-template-columns: 1fr;
+    }
+
+    .overview-features {
+      grid-template-columns: 1fr;
+    }
+
+    .tech-content {
+      grid-template-columns: 1fr;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .benefits-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .use-cases {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .btn {
+      width: 200px;
+    }
+  }
+</style>

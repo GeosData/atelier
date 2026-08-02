@@ -1,0 +1,56 @@
+---
+import { config } from '../../data/apps/lugantes';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const pageTitle = title ? `${title} | ${config.name}` : `${config.name} — ${config.tagline}`;
+const pageDesc = description ?? config.description;
+const canonical = new URL(Astro.url.pathname, 'https://geosdata.com').toString();
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content={config.primaryColor} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global define:vars={{ primary: config.primaryColor, accent: config.accentColor }}>
+  :root {
+    --primary: var(--primary);
+    --accent: var(--accent);
+    --bg: #030712;
+    --bg-elevated: #0f172a;
+    --border: #1e293b;
+    --text: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-strong: #f1f5f9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+</style>

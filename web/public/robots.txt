@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://geosdata.com/sitemap-index.xml

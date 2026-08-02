@@ -1,0 +1,267 @@
+---
+export interface Props {
+  currentPage?: string;
+}
+
+const { currentPage = '' } = Astro.props;
+---
+
+<header class="header" id="header">
+  <nav class="nav">
+    <a href="/" class="nav-brand">
+      <div class="brand-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+          <path d="m22 17.65-9.17 4.18a2 2 0 0 1-1.66 0L2 17.65"/>
+          <path d="m22 12.65-9.17 4.18a2 2 0 0 1-1.66 0L2 12.65"/>
+        </svg>
+      </div>
+      <span class="brand-text">GeosData</span>
+    </a>
+    
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menú">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    
+    <div class="nav-wrapper" id="nav-wrapper">
+      <ul class="nav-menu">
+        <li><a href="/" class={`nav-link ${currentPage === 'inicio' ? 'active' : ''}`}>Inicio</a></li>
+        <li><a href="/apps" class={`nav-link ${currentPage === 'apps' ? 'active' : ''}`}>Apps</a></li>
+        <li><a href="/projects" class={`nav-link ${currentPage === 'projects' ? 'active' : ''}`}>Proyectos</a></li>
+        <li><a href="/blog" class={`nav-link ${currentPage === 'blog' ? 'active' : ''}`}>Blog</a></li>
+        <li><a href="/about" class={`nav-link ${currentPage === 'about' ? 'active' : ''}`}>Nosotros</a></li>
+      </ul>
+      <a href="/contact" class="nav-cta">Contacto</a>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1.5rem 0;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent;
+  }
+
+  .header.scrolled {
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(12px);
+    border-color: rgba(30, 41, 59, 0.6);
+    padding: 1rem 0;
+  }
+
+  .nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 1001;
+  }
+
+  .hamburger-line {
+    width: 24px;
+    height: 2px;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+
+  .mobile-menu-btn.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .mobile-menu-btn.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-btn.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-brand:hover .brand-icon {
+    transform: rotate(12deg);
+  }
+
+  .brand-icon svg {
+    color: white;
+  }
+
+  .brand-text {
+    font-weight: 700;
+  }
+
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: white;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #818cf8, #c084fc);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 100%;
+  }
+
+  .nav-cta {
+    background: white;
+    color: #030712;
+    padding: 0.6rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .nav-cta:hover {
+    background: #e2e8f0;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-menu-btn {
+      display: flex;
+    }
+
+    .nav-wrapper {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 300px;
+      height: 100vh;
+      background: rgba(3, 7, 18, 0.98);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      padding: 5rem 2rem 2rem;
+      gap: 2rem;
+      transition: right 0.3s ease;
+      border-left: 1px solid rgba(30, 41, 59, 0.6);
+    }
+
+    .nav-wrapper.active {
+      right: 0;
+    }
+
+    .nav-menu {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      font-size: 1.125rem;
+      padding: 0.5rem 0;
+    }
+
+    .nav-cta {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .nav-menu {
+      gap: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('header');
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const navWrapper = document.getElementById('nav-wrapper');
+  
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+  });
+  
+  mobileMenuBtn?.addEventListener('click', () => {
+    mobileMenuBtn.classList.toggle('active');
+    navWrapper?.classList.toggle('active');
+  });
+  
+  // Close menu when clicking on a link
+  navWrapper?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenuBtn?.classList.remove('active');
+      navWrapper?.classList.remove('active');
+    });
+  });
+</script>

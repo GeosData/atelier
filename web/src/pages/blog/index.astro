@@ -1,0 +1,315 @@
+---
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const posts = [
+  {
+    title: "Bienvenido a mi blog",
+    excerpt: "Un espacio donde comparto mis experiencias como desarrollador, proyectos en los que trabajo y reflexiones sobre tecnología.",
+    date: "2025-01-27",
+    slug: "bienvenido-a-mi-blog",
+    category: "General",
+    readTime: "3 min"
+  }
+];
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Blog de GeosData - Desarrollador Full Stack. Artículos sobre tecnología, desarrollo y proyectos." />
+    <link rel="canonical" href="https://geosdata.com/blog/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Blog - GeosData</title>
+  </head>
+  <body>
+    <Header currentPage="blog" />
+    
+    <main class="main">
+      <section class="blog-hero">
+        <div class="hero-glow"></div>
+        <div class="container">
+          <h1 class="blog-title">Mi Blog</h1>
+          <p class="blog-subtitle">
+            Un espacio donde comparto mis experiencias como desarrollador, proyectos en los que trabajo y reflexiones sobre tecnología.
+          </p>
+        </div>
+      </section>
+
+      <section class="blog-content">
+        <div class="container">
+          <div class="posts-grid">
+            {posts.map(post => (
+              <article class="post-card">
+                <div class="post-meta">
+                  <span class="post-category">{post.category}</span>
+                  <span class="post-date">{post.date}</span>
+                  <span class="post-read-time">{post.readTime}</span>
+                </div>
+                <h2 class="post-title">
+                  <a href={`/blog/${post.slug}`}>{post.title}</a>
+                </h2>
+                <p class="post-excerpt">{post.excerpt}</p>
+                <a href={`/blog/${post.slug}`} class="read-more">Leer más →</a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="blog-cta">
+        <div class="container">
+          <h3 class="cta-title">¿Te interesa algún tema en particular?</h3>
+          <p class="cta-description">
+            Si hay algún tema específico sobre desarrollo, tecnología o proyectos que te gustaría que aborde, no dudes en contactarme.
+          </p>
+          <div class="cta-actions">
+            <a href="mailto:contacto@geosdata.com" class="btn btn-primary">Contactar</a>
+            <a href="/about" class="btn btn-secondary">Conocer más sobre mí</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #030712;
+    color: #94a3b8;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .blog-hero {
+    position: relative;
+    padding: 8rem 0 4rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: rgba(99, 102, 241, 0.2);
+    filter: blur(100px);
+    border-radius: 50%;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .blog-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: white;
+    position: relative;
+    z-index: 1;
+  }
+
+  .blog-subtitle {
+    font-size: 1.125rem;
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .blog-content {
+    padding: 4rem 0;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .post-card {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(30, 41, 59, 0.6);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .post-card:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    transform: translateY(-4px);
+  }
+
+  .post-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+
+  .post-category {
+    background: rgba(30, 41, 59, 0.6);
+    color: #818cf8;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 0.75rem;
+  }
+
+  .post-date {
+    color: #64748b;
+  }
+
+  .post-read-time {
+    color: #64748b;
+  }
+
+  .post-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .post-title a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .post-title a:hover {
+    color: #818cf8;
+  }
+
+  .post-excerpt {
+    color: #64748b;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .read-more {
+    color: #818cf8;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .read-more:hover {
+    color: #c084fc;
+  }
+
+  .blog-cta {
+    padding: 4rem 0 6rem;
+    background: rgba(2, 6, 23, 0.5);
+    border-top: 1px solid #0f172a;
+    text-align: center;
+  }
+
+  .cta-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .cta-description {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #64748b;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: #818cf8;
+    border: 2px solid rgba(129, 140, 248, 0.4);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(129, 140, 248, 0.1);
+    border-color: #818cf8;
+    color: #c084fc;
+  }
+
+  @media (max-width: 768px) {
+    .blog-hero {
+      padding: 6rem 0 3rem;
+    }
+
+    .blog-title {
+      font-size: 2.5rem;
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn {
+      width: 200px;
+    }
+
+    .cta-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>

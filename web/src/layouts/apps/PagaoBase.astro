@@ -1,0 +1,82 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const {
+  title,
+  description = 'Tu vendedor cobra desde el celular, tú ves todo en tiempo real. Sin SAP, sin contratos largos.',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, 'https://geosdata.com').toString();
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content={description}>
+  <title>{title}</title>
+  <link rel="canonical" href={canonical}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={canonical}>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="/apps/pagao" class="logo">Pagao</a>
+      <nav>
+        <a href="/apps/pagao/privacidad">Privacidad</a>
+        <a href="/apps/pagao/terminos">Términos</a>
+        <a href="/" class="back">← Geosdata</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>© {year} Pagao · Operado por Jose Tirado, persona natural · ecosistema Geosdata</span>
+      <div class="footer-links">
+        <a href="/apps/pagao/privacidad">Política de tratamiento</a>
+        <a href="/apps/pagao/terminos">Términos</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style is:global>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-family: system-ui, -apple-system, sans-serif; background: #fafafa; color: #18181b; }
+  body { min-height: 100dvh; display: flex; flex-direction: column; }
+  a { color: inherit; }
+
+  header { border-bottom: 1px solid #e4e4e7; background: #fff; }
+  .header-inner {
+    max-width: 56rem; margin: 0 auto;
+    padding: 1rem 1.25rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { font-size: 1.2rem; font-weight: 700; text-decoration: none; color: #18181b; }
+  nav { display: flex; gap: 1.5rem; font-size: 0.875rem; color: #52525b; }
+  nav a { text-decoration: none; transition: color 150ms; }
+  nav a:hover { color: #18181b; }
+  nav .back { color: #2563eb; }
+
+  main { flex: 1; }
+
+  footer { border-top: 1px solid #e4e4e7; background: #fff; font-size: 0.75rem; color: #71717a; }
+  .footer-inner {
+    max-width: 56rem; margin: 0 auto; padding: 1.25rem;
+    display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center;
+  }
+  .footer-links { display: flex; gap: 1rem; }
+  .footer-links a { text-decoration: none; }
+  .footer-links a:hover { text-decoration: underline; }
+</style>

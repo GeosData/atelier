@@ -1,0 +1,51 @@
+---
+import LugantesBase from '../../../layouts/apps/LugantesBase.astro';
+import Header from '../../../components/apps/lugantes/Header.astro';
+import Footer from '../../../components/apps/lugantes/Footer.astro';
+import { config } from '../../../data/apps/lugantes';
+---
+<LugantesBase title="Términos de Uso" description={`Términos de uso de ${config.name}.`}>
+  <Header />
+  <main class="legal">
+    <div class="container">
+      <h1>Términos de Uso</h1>
+      <p class="meta">Vigente desde: {config.privacyEffectiveDate} · Publicador: {config.publisher}</p>
+
+      <h2>1. Aceptación</h2>
+      <p>Al usar {config.name} aceptas estos términos. Si no estás de acuerdo, no uses la app.</p>
+
+      <h2>2. Uso permitido</h2>
+      <p>Uso personal no comercial. Prohibido scraping, ingeniería inversa, redistribución.</p>
+
+      <h2>3. Contenido</h2>
+      <p>Reconstrucciones IA basadas en referencias históricas. Pueden contener errores. No constituye fuente académica oficial.</p>
+
+      <h2>4. Compras in-app</h2>
+      <p>Cualquier compra futura procesada por Google Play. Sujeta a sus políticas de reembolso.</p>
+
+      <h2>5. Disclaimer</h2>
+      <p>App provista "tal cual". No garantizamos disponibilidad ininterrumpida ni precisión histórica absoluta.</p>
+
+      <h2>6. Limitación de responsabilidad</h2>
+      <p>{config.publisher} no responde por daños indirectos derivados del uso de la app.</p>
+
+      <h2>7. Modificaciones</h2>
+      <p>Podemos modificar estos términos. Uso continuado implica aceptación.</p>
+
+      <h2>8. Ley aplicable</h2>
+      <p>Leyes de Colombia. Jurisdicción Montería, Córdoba.</p>
+
+      <h2>9. Contacto</h2>
+      <p><a href={`mailto:${config.contactEmail}`}>{config.contactEmail}</a></p>
+    </div>
+  </main>
+  <Footer />
+</LugantesBase>
+
+<style>
+  .legal { padding: 3rem 0 4rem; }
+  .container { max-width: 760px; margin: 0 auto; padding: 0 1.5rem; }
+  h1 { color: var(--text-strong); font-size: 2rem; margin-bottom: 0.4rem; }
+  h2 { color: var(--text-strong); font-size: 1.2rem; margin: 2rem 0 0.6rem; }
+  .meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+</style>

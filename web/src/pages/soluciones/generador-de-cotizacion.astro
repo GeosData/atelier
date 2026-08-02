@@ -1,0 +1,332 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource/ibm-plex-mono/700.css';
+
+const title = 'Generador de cotización gratis';
+const description = 'Crea una cotización profesional gratis en minutos: pon tu negocio, tu cliente y los ítems, y descárgala en PDF para enviársela. Sin registro.';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://geosdata.com/soluciones/generador-de-cotizacion/" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <title>{title} · Geosdata</title>
+  </head>
+  <body>
+    <div class="page">
+      <header class="top no-print">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+          <span class="mark">GEOSDATA</span>
+        </a>
+        <a class="back" href="/">← Inicio</a>
+      </header>
+
+      <main class="tool">
+        <section class="intro no-print">
+          <p class="eyebrow">Producto · cotizaciones</p>
+          <h1>Haz una cotización en minutos y descárgala en PDF</h1>
+          <p class="lead">
+            Llena tu negocio, tu cliente y lo que ofreces. Se arma sola con los totales, y la descargas lista para
+            enviarla por WhatsApp o correo. Sin registro y sin marcas de agua.
+          </p>
+        </section>
+
+        <section class="calculator no-print">
+          <form id="quote-form" class="rec-form" novalidate>
+            <p class="group-title">Tu negocio</p>
+            <div class="field">
+              <label for="bizName">Nombre de tu negocio o tuyo</label>
+              <input type="text" id="bizName" name="bizName" placeholder="Taller El Progreso" required />
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <label for="bizContact">Teléfono o correo <span>(opcional)</span></label>
+                <input type="text" id="bizContact" name="bizContact" placeholder="300 000 0000" />
+              </div>
+              <div class="field">
+                <label for="bizId">NIT o cédula <span>(opcional)</span></label>
+                <input type="text" id="bizId" name="bizId" placeholder="900.000.000-1" />
+              </div>
+            </div>
+
+            <p class="group-title">Cliente</p>
+            <div class="grid2">
+              <div class="field">
+                <label for="clientName">Nombre del cliente</label>
+                <input type="text" id="clientName" name="clientName" placeholder="Distribuidora La 30" required />
+              </div>
+              <div class="field">
+                <label for="quoteNo">N.º de cotización</label>
+                <input type="text" id="quoteNo" name="quoteNo" placeholder="COT-001" value="COT-001" />
+              </div>
+            </div>
+
+            <p class="group-title">Ítems</p>
+            <div id="items"></div>
+            <button type="button" id="add-item" class="ghost-btn">+ Agregar ítem</button>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="iva">IVA</label>
+                <select id="iva" name="iva">
+                  <option value="no" selected>Sin IVA</option>
+                  <option value="yes">Sumar IVA 19%</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="validity">Válida por (días)</label>
+                <input type="number" id="validity" name="validity" min="0" step="1" placeholder="15" value="15" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="notes">Notas <span>(opcional: forma de pago, tiempo de entrega…)</span></label>
+              <textarea id="notes" name="notes" rows="2" placeholder="50% de anticipo, entrega en 5 días hábiles."></textarea>
+            </div>
+
+            <button type="submit">Generar cotización</button>
+          </form>
+        </section>
+
+        <section id="doc-actions" class="doc-actions no-print" hidden>
+          <button type="button" id="download">Descargar / Imprimir PDF</button>
+          <span class="doc-hint">Se abre el diálogo de impresión: elige "Guardar como PDF".</span>
+        </section>
+
+        <article id="quote-doc" class="quote-doc" hidden></article>
+
+        <section class="notes no-print">
+          <h2>Cómo funciona</h2>
+          <ul>
+            <li>Todo se arma en tu navegador; no guardamos ni enviamos tus datos a ningún lado.</li>
+            <li>El botón "Descargar / Imprimir" abre el diálogo del navegador: elige <strong>Guardar como PDF</strong> y listo.</li>
+            <li>El IVA usa la tarifa general del 19% y solo lo sumas si eres responsable de IVA.</li>
+          </ul>
+          <p class="disclaimer">
+            Esta es una cotización comercial (una oferta de precios), no una factura. La factura electrónica en Colombia
+            tiene requisitos de la DIAN que esta herramienta no cubre.
+          </p>
+        </section>
+      </main>
+
+      <footer class="foot no-print">
+        <span class="mark">GEOSDATA</span>
+        <p>Productos digitales enfocados en problemas comunes.</p>
+        <span class="foot-mono">geosdata.com</span>
+      </footer>
+    </div>
+
+    <script is:inline>
+      const money = (value) =>
+        new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(Math.round(value));
+
+      const itemsBox = document.getElementById('items');
+
+      function addItem(desc = '', qty = '1', unit = '') {
+        const row = document.createElement('div');
+        row.className = 'item-row';
+        row.innerHTML = `
+          <input type="text" class="i-desc" placeholder="Descripción" value="${desc}" />
+          <input type="number" class="i-qty" min="0" step="1" placeholder="Cant." value="${qty}" />
+          <input type="number" class="i-unit" min="0" step="100" placeholder="V. unitario" value="${unit}" />
+          <button type="button" class="i-del" aria-label="Quitar">×</button>`;
+        row.querySelector('.i-del').addEventListener('click', () => {
+          row.remove();
+          if (!itemsBox.children.length) addItem();
+        });
+        itemsBox.appendChild(row);
+      }
+
+      addItem();
+      document.getElementById('add-item').addEventListener('click', () => addItem());
+
+      function collect() {
+        const rows = [...itemsBox.querySelectorAll('.item-row')];
+        const items = rows.map((r) => {
+          const desc = r.querySelector('.i-desc').value.trim();
+          const qty = parseFloat(r.querySelector('.i-qty').value) || 0;
+          const unit = parseFloat(r.querySelector('.i-unit').value) || 0;
+          return { desc, qty, unit, total: qty * unit };
+        }).filter((i) => i.desc && i.qty > 0);
+        return items;
+      }
+
+      function todayText() {
+        const d = new Date();
+        return d.toLocaleDateString('es-CO', { day: '2-digit', month: 'long', year: 'numeric' });
+      }
+
+      const form = document.getElementById('quote-form');
+      const doc = document.getElementById('quote-doc');
+      const actions = document.getElementById('doc-actions');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const el = form.elements;
+        const items = collect();
+        if (!el['bizName'].value.trim() || !el['clientName'].value.trim() || !items.length) {
+          alert('Completa tu negocio, el cliente y al menos un ítem con descripción y cantidad.');
+          return;
+        }
+        const withIva = el['iva'].value === 'yes';
+        const subtotal = items.reduce((s, i) => s + i.total, 0);
+        const iva = withIva ? subtotal * 0.19 : 0;
+        const total = subtotal + iva;
+
+        const rowsHtml = items.map((i) => `
+          <tr>
+            <td>${i.desc}</td>
+            <td class="num">${i.qty.toLocaleString('es-CO')}</td>
+            <td class="num">${money(i.unit)}</td>
+            <td class="num">${money(i.total)}</td>
+          </tr>`).join('');
+
+        const contact = el['bizContact'].value.trim();
+        const bizId = el['bizId'].value.trim();
+        const validity = parseFloat(el['validity'].value);
+        const notes = el['notes'].value.trim();
+
+        doc.innerHTML = `
+          <div class="qd-head">
+            <div class="qd-biz">
+              <h2>${el['bizName'].value.trim()}</h2>
+              ${contact ? `<p>${contact}</p>` : ''}
+              ${bizId ? `<p>NIT/CC: ${bizId}</p>` : ''}
+            </div>
+            <div class="qd-meta">
+              <span class="qd-title">COTIZACIÓN</span>
+              <p>${el['quoteNo'].value.trim() || 'COT-001'}</p>
+              <p>${todayText()}</p>
+            </div>
+          </div>
+          <div class="qd-client"><span>Para:</span> <strong>${el['clientName'].value.trim()}</strong></div>
+          <table class="qd-table">
+            <thead><tr><th>Descripción</th><th class="num">Cant.</th><th class="num">V. unitario</th><th class="num">Total</th></tr></thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+          <div class="qd-totals">
+            <div class="qd-line"><span>Subtotal</span><b>${money(subtotal)}</b></div>
+            ${withIva ? `<div class="qd-line"><span>IVA (19%)</span><b>${money(iva)}</b></div>` : ''}
+            <div class="qd-line qd-total"><span>Total</span><b>${money(total)}</b></div>
+          </div>
+          ${Number.isFinite(validity) && validity > 0 ? `<p class="qd-validity">Cotización válida por ${validity} día${validity === 1 ? '' : 's'}.</p>` : ''}
+          ${notes ? `<p class="qd-notes">${notes}</p>` : ''}
+          <p class="qd-foot">Generada con geosdata.com</p>`;
+
+        doc.hidden = false;
+        actions.hidden = false;
+        actions.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      document.getElementById('download').addEventListener('click', () => window.print());
+    </script>
+
+    <style is:global>
+      :root {
+        --paper: #f1f1ec; --paper-2: #eceae3; --ink: #17201b; --ink-soft: #5b625b;
+        --line: #d5d4cb; --accent: #0f6e4e; --accent-ink: #0a4d36; --accent-soft: #e2ede7; --warn: #8a5109;
+        --font-mono: 'IBM Plex Mono', ui-monospace, "Consolas", monospace;
+        --font-sans: 'Archivo Variable', system-ui, -apple-system, "Segoe UI", sans-serif;
+        --wrap: 780px;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+      .top { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2rem); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+      .brand { text-decoration: none; display: flex; align-items: center; gap: 0.55rem; }
+      .brand-mark { display: inline-flex; color: var(--accent-ink); }
+      .brand-mark svg { width: 20px; height: 20px; }
+      .mark { font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.06em; color: var(--ink); font-size: 1rem; }
+      .back { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-soft); text-decoration: none; }
+      .back:hover { color: var(--accent-ink); }
+
+      .tool { max-width: var(--wrap); margin: 0 auto; padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2rem) 5rem; display: flex; flex-direction: column; gap: 2.5rem; }
+      .eyebrow { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72rem; color: var(--accent-ink); margin-bottom: 1rem; }
+      h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); color: var(--ink); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 1.1rem; font-weight: 800; text-wrap: balance; }
+      .lead { font-size: 1.08rem; color: #2c332c; max-width: 60ch; }
+
+      .rec-form { display: grid; gap: 1.1rem; background: #fff; border: 1px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); padding: 1.8rem; }
+      .group-title { font-family: var(--font-mono); color: var(--ink); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+      .group-title:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+      .field { display: flex; flex-direction: column; gap: 0.4rem; }
+      .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+      .field label { font-family: var(--font-mono); color: var(--ink-soft); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; }
+      .field label span { text-transform: none; letter-spacing: 0; color: var(--ink-soft); }
+      input, select, textarea { font-family: var(--font-mono); padding: 0.7rem 0.8rem; background: var(--paper); border: 1px solid var(--line); color: var(--ink); font-size: 0.95rem; width: 100%; }
+      input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+      button[type="submit"] { font-family: var(--font-mono); padding: 0.85rem 1.4rem; background: var(--accent); color: #fff; border: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.02em; cursor: pointer; transition: background 0.2s; justify-self: start; }
+      button[type="submit"]:hover { background: var(--accent-ink); }
+
+      .item-row { display: grid; grid-template-columns: 1fr 70px 120px 34px; gap: 0.5rem; align-items: center; }
+      .ghost-btn { font-family: var(--font-mono); font-size: 0.8rem; padding: 0.55rem 0.9rem; background: transparent; color: var(--accent-ink); border: 1px dashed var(--accent); cursor: pointer; justify-self: start; }
+      .ghost-btn:hover { background: var(--accent-soft); }
+      .i-del { background: transparent; border: 1px solid var(--line); color: var(--ink-soft); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 0.5rem; }
+      .i-del:hover { border-color: var(--warn); color: var(--warn); }
+
+      .doc-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+      #download { font-family: var(--font-mono); padding: 0.85rem 1.4rem; background: var(--ink); color: var(--paper); border: none; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+      #download:hover { background: var(--accent-ink); }
+      .doc-hint { font-size: 0.82rem; color: var(--ink-soft); }
+
+      .quote-doc { background: #fff; border: 1px solid var(--ink); padding: clamp(1.6rem, 4vw, 2.6rem); color: var(--ink); }
+      .qd-head { display: flex; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: 1.1rem; }
+      .qd-biz h2 { font-size: 1.4rem; letter-spacing: -0.01em; }
+      .qd-biz p { font-size: 0.85rem; color: var(--ink-soft); font-family: var(--font-mono); }
+      .qd-meta { text-align: right; }
+      .qd-title { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.18em; color: var(--accent-ink); }
+      .qd-meta p { font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-soft); }
+      .qd-client { margin: 1.1rem 0; font-size: 0.95rem; }
+      .qd-client span { color: var(--ink-soft); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; }
+      .qd-table { width: 100%; border-collapse: collapse; margin-bottom: 1.2rem; }
+      .qd-table th { text-align: left; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid var(--line); padding: 0.5rem 0.6rem; }
+      .qd-table td { padding: 0.6rem; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+      .qd-table .num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .qd-totals { display: flex; flex-direction: column; gap: 0.35rem; align-items: flex-end; }
+      .qd-line { display: flex; gap: 2rem; justify-content: space-between; min-width: 240px; font-size: 0.92rem; }
+      .qd-line span { color: var(--ink-soft); }
+      .qd-line b { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+      .qd-total { border-top: 2px solid var(--ink); padding-top: 0.5rem; margin-top: 0.3rem; font-size: 1.1rem; }
+      .qd-total b { color: var(--accent-ink); }
+      .qd-validity { margin-top: 1.4rem; font-size: 0.85rem; color: var(--ink-soft); }
+      .qd-notes { margin-top: 0.5rem; font-size: 0.9rem; color: #2c332c; white-space: pre-wrap; }
+      .qd-foot { margin-top: 1.6rem; padding-top: 0.9rem; border-top: 1px solid var(--line); font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.1em; color: var(--ink-soft); }
+
+      .notes h2 { color: var(--ink); font-size: 1.2rem; margin-bottom: 1rem; letter-spacing: -0.01em; }
+      .notes ul { padding-left: 1.2rem; display: grid; gap: 0.6rem; margin-bottom: 1.25rem; color: #2c332c; }
+      .notes strong { color: var(--ink); }
+      .disclaimer { font-size: 0.85rem; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 1rem; }
+
+      .foot { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2rem) 3rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+      .foot p { color: var(--ink-soft); font-size: 0.86rem; flex: 1; min-width: 180px; }
+      .foot-mono { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; color: var(--ink-soft); }
+
+      a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+      @media (max-width: 560px) {
+        .grid2 { grid-template-columns: 1fr; }
+        .item-row { grid-template-columns: 1fr 56px 100px 32px; }
+      }
+
+      @media print {
+        body { background: #fff; }
+        .no-print { display: none !important; }
+        .tool { padding: 0; gap: 0; }
+        .quote-doc { border: none; padding: 0; }
+        @page { margin: 1.5cm; }
+      }
+    </style>
+  </body>
+</html>

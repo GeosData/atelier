@@ -1,0 +1,49 @@
+---
+import { config } from '../../../data/apps/lugantes';
+---
+<section id="features" class="features">
+  <div class="container">
+    <h2>Qué hace Lugantes</h2>
+    <p class="lead">Historia local. Reconstruida con IA. Curada por humanos.</p>
+    <div class="grid">
+      {config.features.map((f) => (
+        <article class="card">
+          <div class="icon">{f.icon}</div>
+          <h3>{f.title}</h3>
+          <p>{f.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .features { padding: 4rem 0; border-top: 1px solid var(--border); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+  h2 {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    color: var(--text-strong);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .lead { text-align: center; color: var(--text-muted); margin-bottom: 2.5rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover {
+    border-color: color-mix(in oklab, var(--accent) 50%, var(--border));
+    transform: translateY(-2px);
+  }
+  .icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+  .card h3 { color: var(--text-strong); margin-bottom: 0.4rem; font-size: 1.1rem; }
+  .card p { color: var(--text-muted); font-size: 0.95rem; }
+</style>

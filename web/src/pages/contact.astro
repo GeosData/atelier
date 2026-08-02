@@ -1,0 +1,246 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { Mail, MapPin } from 'lucide-astro';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="¿Tomas decisiones sin saber los números reales? Te ayudamos a medir y visualizar tus datos. Primera revisión gratuita - descubre qué no estás viendo." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://geosdata.com/contact" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Contacto - GeosData" />
+    <meta property="og:description" content="¿Tomas decisiones sin saber los números reales? Primera consulta gratuita." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://geosdata.com/contact" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Contacto - GeosData</title>
+  </head>
+  <body>
+    <Header currentPage="contacto" />
+    
+    <main class="main">
+      <section class="page-hero">
+        <div class="hero-glow"></div>
+        <div class="container">
+          <h1 class="page-title">Contacto</h1>
+          <p class="page-subtitle">
+            Estamos listos para escuchar tu idea y convertirla en realidad
+          </p>
+        </div>
+      </section>
+
+      <section class="contact-section">
+        <div class="container">
+          <div class="contact-grid">
+            <div class="contact-info">
+              <h2 class="info-title">Hablemos de tu proyecto</h2>
+              <p class="info-desc">
+                Ya sea que tengas una idea clara o solo el inicio de una, nos encanta 
+                escuchar propuestas. Respondemos en menos de 24 horas.
+              </p>
+              
+              <div class="info-items">
+                <div class="info-item">
+                  <div class="info-icon">
+                    <Mail size={24} />
+                  </div>
+                  <div class="info-content">
+                    <span class="info-label">Email</span>
+                    <a href="mailto:contacto@geosdata.com" class="info-value">contacto@geosdata.com</a>
+                  </div>
+                </div>
+                
+                <div class="info-item">
+                  <div class="info-icon">
+                    <MapPin size={24} />
+                  </div>
+                  <div class="info-content">
+                    <span class="info-label">Ubicación</span>
+                    <span class="info-value">Colombia · Latinoamérica</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="contact-form-wrapper">
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #030712;
+    color: #94a3b8;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .page-hero {
+    position: relative;
+    padding: 8rem 0 4rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: rgba(99, 102, 241, 0.2);
+    filter: blur(100px);
+    border-radius: 50%;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .page-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: white;
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-subtitle {
+    font-size: 1.125rem;
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-section {
+    padding: 4rem 0 6rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-grid {
+      grid-template-columns: 1fr 1.2fr;
+      align-items: start;
+    }
+  }
+
+  .contact-info {
+    padding-right: 2rem;
+  }
+
+  .info-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .info-desc {
+    color: #64748b;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  .info-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .info-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #818cf8;
+  }
+
+  .info-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .info-label {
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+
+  .info-value {
+    font-size: 1rem;
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .info-value:hover {
+    color: #818cf8;
+  }
+
+  .contact-form-wrapper {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(30, 41, 59, 0.6);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      padding: 6rem 0 3rem;
+    }
+
+    .contact-form-wrapper {
+      padding: 1.5rem;
+    }
+
+    .contact-info {
+      padding-right: 0;
+    }
+  }
+</style>

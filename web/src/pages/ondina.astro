@@ -1,0 +1,214 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource/ibm-plex-mono/700.css';
+
+const title = 'Ondina — delega el cuidado de tu acuario sin miedo';
+const description = 'Deja escrito cómo se cuida tu acuario y quien queda a cargo pregunta por voz. Recibe tu instrucción exacta, anclada a lo que dejaste, no consejo genérico. Empieza con acuarios.';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://geosdata.com/ondina/" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <title>{title} · Geosdata</title>
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+          <span class="mark">GEOSDATA</span>
+        </a>
+        <a class="back" href="/">← Inicio</a>
+      </header>
+
+      <main class="wrap">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Producto · en desarrollo</p>
+            <h1>Delega el cuidado de tu acuario, <span class="hl">sin miedo</span>.</h1>
+            <p class="lead">
+              Quien cuida tus peces mientras no estás no tiene por qué saber del tema. Con <b>Ondina</b> dejas escrito
+              cómo se cuida cada cosa, y quien queda a cargo <b>pregunta por voz</b> —"¿cuánto le echo de comida?"— y
+              recibe <b>tu instrucción exacta</b>, anclada a lo que dejaste. No el consejo genérico de internet.
+            </p>
+            <div class="cta">
+              <a class="btn btn-primary" href="#lista">Avísame cuando salga →</a>
+              <a class="btn btn-ghost" href="#pasos">Cómo funciona</a>
+            </div>
+            <p class="fineprint">El dueño carga todo desde una web; el cuidador usa una app Android que responde por voz. Empieza con acuarios — la misma idea sirve para plantas, mascotas o la casa.</p>
+          </div>
+
+          <div class="demo">
+            <div class="demo-card">
+              <p class="demo-ask"><span class="mic" aria-hidden="true">●</span> "¿Cuánto le echo de comida a los tetras?"</p>
+              <div class="demo-answer">
+                <span class="demo-tag">Lo que dejó Ana (dueña)</span>
+                <p>Una pizca pequeña, dos veces al día. Ni más — se la comen en dos minutos. La comida está en el cajón de arriba.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="pasos" class="steps">
+          <div class="section-head"><p class="eyebrow">Cómo funciona</p><h2>Deja escrito una vez, delega tranquilo</h2></div>
+          <ol>
+            <li><span class="n">01</span><h3>Lo dejas escrito</h3><p>Cargas tus acuarios, peces y cuidados una sola vez, desde la web.</p></li>
+            <li><span class="n">02</span><h3>Preguntan por voz</h3><p>Quien cuida aprieta y pregunta normal. Sin leer un manual, sin molestarte a ti.</p></li>
+            <li><span class="n">03</span><h3>Reciben tu instrucción</h3><p>La respuesta sale de lo que <b>tú</b> dejaste. Si algo no está, responde honesto: "eso no está, consulta al dueño".</p></li>
+          </ol>
+        </section>
+
+        <section class="feats">
+          <div class="feat"><h3>Anclado a ti</h3><p>No inventa consejo genérico. Responde con lo que el dueño dejó escrito — o dice que no sabe.</p></div>
+          <div class="feat"><h3>Por voz</h3><p>Para el que no sabe del tema y no va a leer un documento. Pregunta hablando, escucha la respuesta.</p></div>
+          <div class="feat"><h3>Crece contigo</h3><p>Empieza con acuarios. El mismo cuidado delegado sirve para plantas, mascotas o la casa.</p></div>
+        </section>
+
+        <section id="lista" class="hook">
+          <div class="hook-copy">
+            <h2>¿Vas a viajar y alguien cuida tus peces?</h2>
+            <p>Está en desarrollo. Déjame tu correo y te aviso cuando esté lista para probar.</p>
+          </div>
+          <form id="wait-form" class="hook-form" novalidate>
+            <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="hook-row">
+              <input type="text" name="name" placeholder="Tu nombre" required />
+              <input type="email" name="email" placeholder="tu@correo.com" required />
+            </div>
+            <textarea name="message" rows="2" placeholder="¿Qué cuidas? (acuario, plantas, mascota…) — opcional"></textarea>
+            <button type="submit">Avísame</button>
+            <p id="wait-status" class="hook-status" role="status"></p>
+          </form>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <span class="mark">GEOSDATA</span>
+        <p>Productos digitales enfocados en problemas comunes.</p>
+        <span class="foot-mono">geosdata.com</span>
+      </footer>
+    </div>
+
+    <script is:inline>
+      const form = document.getElementById('wait-form');
+      const status = document.getElementById('wait-status');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const b = form.querySelector('button');
+        b.disabled = true;
+        status.textContent = 'Enviando…';
+        try {
+          const payload = {
+            name: form.elements['name'].value,
+            email: form.elements['email'].value,
+            subject: 'Ondina — lista de espera',
+            message: form.elements['message'].value || 'Sin detalle',
+            company: form.elements['company'].value,
+          };
+          const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+          const data = await res.json();
+          status.textContent = res.ok && data.ok ? (form.reset(), 'Listo, te aviso cuando salga. Gracias.') : 'No se pudo enviar. Inténtalo de nuevo.';
+        } catch {
+          status.textContent = 'No se pudo enviar. Inténtalo de nuevo.';
+        } finally {
+          b.disabled = false;
+        }
+      });
+    </script>
+
+    <style is:global>
+      :root {
+        --paper: #f1f1ec; --paper-2: #eceae3; --ink: #17201b; --ink-soft: #5b625b;
+        --line: #d5d4cb; --accent: #0c7a6e; --accent-ink: #08594f; --accent-soft: #dfeeeb; --warn: #8a5109;
+        --font-mono: 'IBM Plex Mono', ui-monospace, "Consolas", monospace;
+        --font-sans: 'Archivo Variable', system-ui, -apple-system, "Segoe UI", sans-serif;
+        --wrap: 1080px;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+      .top { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+      .brand { text-decoration: none; display: flex; align-items: center; gap: 0.55rem; }
+      .brand-mark { display: inline-flex; color: var(--accent-ink); }
+      .brand-mark svg { width: 20px; height: 20px; }
+      .mark { font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.06em; color: var(--ink); font-size: 1rem; }
+      .back { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-soft); text-decoration: none; }
+      .back:hover { color: var(--accent-ink); }
+
+      .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+      .eyebrow { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72rem; color: var(--accent-ink); margin-bottom: 1rem; }
+
+      .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; padding: clamp(2.5rem, 6vw, 4.5rem) 0; }
+      h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.05; letter-spacing: -0.025em; font-weight: 800; text-wrap: balance; margin-bottom: 1.2rem; }
+      .hl { color: var(--accent); }
+      .lead { font-size: 1.1rem; color: #2c332c; max-width: 46ch; }
+      .cta { display: flex; gap: 0.75rem; margin-top: 1.8rem; flex-wrap: wrap; }
+      .btn { font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.02em; padding: 0.85rem 1.4rem; text-decoration: none; border: 1px solid var(--ink); transition: transform 0.15s, background 0.15s; }
+      .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+      .btn-primary:hover { background: var(--accent-ink); transform: translateY(-2px); }
+      .btn-ghost { background: transparent; color: var(--ink); }
+      .btn-ghost:hover { background: var(--paper-2); }
+      .fineprint { margin-top: 1.2rem; font-size: 0.82rem; color: var(--ink-soft); max-width: 48ch; }
+
+      .demo { display: flex; justify-content: center; }
+      .demo-card { width: 340px; max-width: 88vw; background: #0b232a; color: #e8f3f1; border-radius: 20px; padding: 1.4rem; box-shadow: 12px 12px 0 rgba(12,122,110,0.22); }
+      .demo-ask { font-family: var(--font-mono); font-size: 0.92rem; color: #9fc9c2; display: flex; gap: 0.5rem; align-items: baseline; }
+      .demo-ask .mic { color: #37c0a6; font-size: 0.7rem; }
+      .demo-answer { margin-top: 1rem; background: #12333b; border-radius: 14px; padding: 1rem; }
+      .demo-tag { font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: #37c0a6; }
+      .demo-answer p { margin-top: 0.5rem; font-size: 1rem; line-height: 1.5; }
+
+      .section-head { border-top: 1px solid var(--line); padding-top: clamp(2rem, 5vw, 3rem); margin-bottom: 1.8rem; }
+      .section-head h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); letter-spacing: -0.015em; }
+      .steps ol { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; padding-bottom: clamp(2rem, 5vw, 3rem); }
+      .steps li { border-top: 2px solid var(--accent); padding-top: 1rem; }
+      .steps .n { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-ink); letter-spacing: 0.1em; }
+      .steps h3 { font-size: 1.15rem; margin: 0.4rem 0 0.3rem; letter-spacing: -0.01em; }
+      .steps p { font-size: 0.9rem; color: var(--ink-soft); }
+
+      .feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; padding-bottom: clamp(2rem, 5vw, 3rem); }
+      .feat { border: 1px solid var(--line); background: #fff; padding: 1.3rem; }
+      .feat h3 { font-size: 1.05rem; letter-spacing: -0.01em; margin-bottom: 0.4rem; }
+      .feat p { font-size: 0.88rem; color: var(--ink-soft); }
+
+      .hook { background: var(--accent-soft); border: 1px solid var(--accent); padding: clamp(1.6rem, 4vw, 2.6rem); display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(1.5rem, 4vw, 3rem); margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+      .hook-copy h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); letter-spacing: -0.015em; color: var(--accent-ink); text-wrap: balance; }
+      .hook-copy p { margin-top: 0.7rem; color: #2c332c; }
+      .hook-form { display: grid; gap: 0.9rem; }
+      .hook-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+      .hook-form input, .hook-form textarea { font-family: var(--font-mono); font-size: 0.92rem; padding: 0.7rem 0.8rem; border: 1px solid var(--accent); background: #fff; color: var(--ink); width: 100%; }
+      .hook-form input:focus, .hook-form textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+      .hook-form button { font-family: var(--font-mono); font-size: 0.85rem; padding: 0.85rem 1.3rem; background: var(--accent-ink); color: #fff; border: none; cursor: pointer; justify-self: start; }
+      .hook-form button:hover { background: var(--ink); }
+      .hook-status { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-ink); min-height: 1rem; }
+      .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+      .foot { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem) 3rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+      .foot p { color: var(--ink-soft); font-size: 0.86rem; flex: 1; min-width: 180px; }
+      .foot-mono { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; color: var(--ink-soft); }
+
+      a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+      @media (max-width: 860px) {
+        .hero { grid-template-columns: 1fr; }
+        .demo { order: -1; }
+        .steps ol { grid-template-columns: 1fr; }
+        .feats { grid-template-columns: 1fr; }
+        .hook { grid-template-columns: 1fr; }
+      }
+    </style>
+  </body>
+</html>

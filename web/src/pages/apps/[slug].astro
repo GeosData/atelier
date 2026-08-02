@@ -1,0 +1,521 @@
+---
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import NewsletterForm from '../../components/NewsletterForm.astro';
+import { apps, appSlugs } from '../../data/apps';
+
+export function getStaticPaths() {
+  return appSlugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const app = apps[slug as string];
+
+if (!app) {
+  return Astro.redirect('/apps');
+}
+
+const canonical = new URL(Astro.url.pathname, 'https://geosdata.com').toString();
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={`${app.name} — ${app.tagline}. ${app.description.slice(0, 140)}`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>{app.name} — {app.tagline} | GeosData</title>
+  </head>
+  <body>
+    <Header currentPage="apps" />
+
+    <main class="main">
+      <section class="vitrina-hero" style={`--accent: ${app.accent}`}>
+        <div class="container">
+          <div class="hero-eyebrow">{app.status}</div>
+          <h1 class="hero-title">
+            <span class="hero-emoji">{app.emoji}</span> {app.name}
+          </h1>
+          <p class="hero-tagline">{app.tagline}</p>
+          <p class="hero-description">{app.description}</p>
+          <div class="hero-tech">
+            {app.techStack.map((tech) => <span class="tech-badge">{tech}</span>)}
+          </div>
+          <div class="hero-actions">
+            {app.liveUrl && (
+              <a href={app.liveUrl} class="btn btn-primary" target="_blank" rel="noopener">
+                {app.liveLabel ?? 'Probar ahora'}
+              </a>
+            )}
+            {app.toolUrl && (
+              <a href={app.toolUrl} class="btn btn-ghost" target="_blank" rel="noopener">
+                {app.toolLabel ?? 'Herramienta gratis'}
+              </a>
+            )}
+            <a href="#waitlist" class={app.liveUrl ? 'btn btn-ghost' : 'btn btn-primary'}>
+              {app.liveUrl ? 'Avisos por correo' : 'Únete al beta'}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="buyer-section">
+        <div class="container">
+          <h2 class="section-title">¿Para quién es?</h2>
+          <p class="buyer-text">{app.buyer}</p>
+        </div>
+      </section>
+
+      <section class="pains-section">
+        <div class="container">
+          <h2 class="section-title">El dolor real</h2>
+          <ul class="pains-list">
+            {app.pains.map((pain) => (
+              <li class="pain-item">
+                <span class="pain-marker">→</span>
+                <span>{pain}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section class="features-section">
+        <div class="container">
+          <h2 class="section-title">Cómo lo resuelve</h2>
+          <div class="features-grid">
+            {app.features.map((f) => (
+              <div class="feature-card">
+                <div class="feature-icon">{f.icon}</div>
+                <h3 class="feature-title">{f.title}</h3>
+                <p class="feature-desc">{f.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="pricing-section">
+        <div class="container">
+          <h2 class="section-title">Precios</h2>
+          <p class="pricing-subtitle">
+            En pesos colombianos, pensados para LATAM. Cobro mes a mes o anual según el plan.
+          </p>
+          <div class="pricing-grid" data-tiers={app.pricing.length}>
+            {app.pricing.map((tier) => (
+              <div class={`pricing-card ${tier.highlight ? 'pricing-card--highlight' : ''}`}>
+                <h3 class="pricing-name">{tier.name}</h3>
+                <p class="pricing-price">{tier.price}</p>
+                <ul class="pricing-features">
+                  {tier.features.map((feat) => (
+                    <li>{feat}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {app.notTarget && app.notTarget.length > 0 && (
+        <section class="anti-target-section">
+          <div class="container">
+            <h2 class="section-title">No es para ti si...</h2>
+            <ul class="anti-target-list">
+              {app.notTarget.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            <p class="anti-target-note">
+              Mejor decir esto claro al inicio que cobrarte un mes y darte cuenta después.
+            </p>
+          </div>
+        </section>
+      )}
+
+      <section id="waitlist" class="waitlist-section">
+        <div class="container">
+          <h2 class="section-title">{app.waitlistTitle}</h2>
+          <p class="waitlist-desc">{app.waitlistDescription}</p>
+          <NewsletterForm
+            listUuid={app.waitlistUuid}
+            brandName=""
+            ctaText="Únirme"
+            placeholder="tu@email.com"
+            accent={app.accent}
+          />
+          <p class="waitlist-fineprint">
+            Doble opt-in vía Listmonk. Sin spam. Cancelas con un clic.
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    color: #1a1a1a;
+    background: #fff;
+    padding-top: 80px;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .main {
+    min-height: calc(100vh - 200px);
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #111;
+  }
+
+  /* Hero */
+  .vitrina-hero {
+    padding: 4rem 0 3rem;
+    background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 60%, #000) 100%);
+    color: #fff;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-emoji {
+    margin-right: 0.4rem;
+  }
+
+  .hero-tagline {
+    font-size: 1.4rem;
+    font-weight: 500;
+    opacity: 0.95;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-description {
+    font-size: 1.05rem;
+    opacity: 0.9;
+    max-width: 720px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+  }
+
+  .tech-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+
+  .btn-primary {
+    background: #fff;
+    color: var(--accent);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  /* Buyer */
+  .buyer-section {
+    padding: 3.5rem 0 2rem;
+  }
+
+  .buyer-text {
+    font-size: 1.1rem;
+    color: #444;
+    max-width: 720px;
+  }
+
+  /* Pains */
+  .pains-section {
+    padding: 2.5rem 0;
+    background: #fafafa;
+  }
+
+  .pains-list {
+    list-style: none;
+    max-width: 720px;
+  }
+
+  .pain-item {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.8rem 0;
+    font-size: 1.05rem;
+    color: #333;
+    border-bottom: 1px solid #eee;
+  }
+
+  .pain-item:last-child {
+    border-bottom: 0;
+  }
+
+  .pain-marker {
+    color: var(--accent, #c62828);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Features */
+  .features-section {
+    padding: 4rem 0;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+    background: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+
+  .feature-card:hover {
+    border-color: #ccc;
+    transform: translateY(-2px);
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-desc {
+    font-size: 0.95rem;
+    color: #666;
+  }
+
+  /* Pricing */
+  .pricing-section {
+    padding: 4rem 0;
+    background: #fafafa;
+  }
+
+  .pricing-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .pricing-card {
+    padding: 2rem 1.5rem;
+    background: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+  }
+
+  .pricing-card--highlight {
+    border: 2px solid var(--accent);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+
+  .pricing-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 1.25rem;
+  }
+
+  .pricing-features {
+    list-style: none;
+    padding: 0;
+  }
+
+  .pricing-features li {
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+    color: #444;
+    border-bottom: 1px solid #f3f3f3;
+  }
+
+  .pricing-features li:last-child {
+    border-bottom: 0;
+  }
+
+  /* Anti-target */
+  .anti-target-section {
+    padding: 3.5rem 0;
+  }
+
+  .anti-target-list {
+    max-width: 720px;
+    list-style: none;
+    padding: 0;
+  }
+
+  .anti-target-list li {
+    padding: 0.5rem 0;
+    color: #555;
+    font-size: 1rem;
+  }
+
+  .anti-target-list li::before {
+    content: '✗ ';
+    color: #c62828;
+    font-weight: 700;
+  }
+
+  .anti-target-note {
+    margin-top: 1.5rem;
+    color: #888;
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  /* Waitlist */
+  .waitlist-section {
+    padding: 4rem 0;
+    background: #fafafa;
+  }
+
+  .waitlist-desc {
+    font-size: 1.05rem;
+    color: #555;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  .waitlist-fineprint {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  /* Cross-link */
+  .cross-link-section {
+    padding: 2.5rem 0 4rem;
+    text-align: center;
+  }
+
+  .cross-link-text {
+    color: #666;
+    font-size: 1rem;
+  }
+
+  .cross-link {
+    color: var(--accent, #0066cc);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .cross-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      padding-top: 120px;
+    }
+
+    .hero-title {
+      font-size: 2.2rem;
+    }
+
+    .hero-tagline {
+      font-size: 1.15rem;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+    }
+  }
+</style>

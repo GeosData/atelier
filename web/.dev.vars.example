@@ -1,0 +1,5 @@
+EMAIL_API_KEY=
+EMAILS_SERVICE_URL=https://api-emails-448285277410.us-east1.run.app
+CONTACT_RECIPIENT=contacto@geosdata.com
+ALLOWED_ORIGIN=http://localhost:8788
+CONTACT_TENANT_ID=geosdata-com

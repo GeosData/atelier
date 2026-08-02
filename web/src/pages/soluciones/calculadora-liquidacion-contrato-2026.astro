@@ -1,0 +1,285 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource/ibm-plex-mono/700.css';
+
+const title = 'Calculadora de liquidación de contrato 2026';
+const description = 'Calcula gratis tu liquidación laboral en Colombia: cesantías, intereses, prima de servicios y vacaciones, según el Código Sustantivo del Trabajo.';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://geosdata.com/soluciones/calculadora-liquidacion-contrato-2026/" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <title>{title} · Geosdata</title>
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+          <span class="mark">GEOSDATA</span>
+        </a>
+        <a class="back" href="/">← Inicio</a>
+      </header>
+
+      <main class="tool">
+        <section class="intro">
+          <p class="eyebrow">Producto · liquidación laboral</p>
+          <h1>¿Cuánto te corresponde de liquidación?</h1>
+          <p class="lead">
+            Al terminar un contrato se pagan cesantías, intereses, prima y vacaciones. Hacerlo a mano es donde más
+            se equivoca la gente. Pon tu salario y las fechas, y ve cada concepto por separado.
+          </p>
+        </section>
+
+        <section class="calculator">
+          <form id="liq-form" class="rec-form" novalidate>
+            <div class="field">
+              <label for="salary">Salario mensual (COP)</label>
+              <input type="number" id="salary" name="salary" min="0" step="1000" placeholder="1750905" required />
+            </div>
+
+            <div class="field">
+              <label for="start">Fecha de ingreso</label>
+              <input type="date" id="start" name="start" required />
+            </div>
+
+            <div class="field">
+              <label for="end">Fecha de retiro</label>
+              <input type="date" id="end" name="end" required />
+            </div>
+
+            <button type="submit">Calcular</button>
+          </form>
+
+          <div id="liq-result" class="rec-result" hidden></div>
+        </section>
+
+        <section id="hook" class="hook" hidden>
+          <h2>¿Te sirvió?</h2>
+          <p>
+            Esto liquida un contrato. Si manejas varios empleados y quieres las liquidaciones, prestaciones y la nómina
+            del mes listas solas, escríbeme y lo miramos.
+          </p>
+          <form id="hook-form" class="hook-form" novalidate>
+            <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="hook-row">
+              <input type="text" name="name" placeholder="Tu nombre" required />
+              <input type="email" name="email" placeholder="tu@correo.com" required />
+            </div>
+            <textarea name="message" rows="3" placeholder="Cuéntame de tu caso: cuántos empleados, cómo llevas la nómina hoy." required></textarea>
+            <button type="submit">Escríbeme</button>
+            <p id="hook-status" class="hook-status" role="status"></p>
+          </form>
+        </section>
+
+        <section class="notes">
+          <h2>Cómo se calcula cada concepto</h2>
+          <ul>
+            <li><strong>Cesantías</strong> (Art. 249 CST): un mes de salario por año trabajado. Base = salario + auxilio de transporte, en base 360.</li>
+            <li><strong>Intereses sobre cesantías</strong> (Ley 52 de 1975): 12% anual sobre las cesantías, proporcional al tiempo.</li>
+            <li><strong>Prima de servicios</strong> (Art. 306 CST): 30 días de salario por año (15 por semestre). Base = salario + auxilio, sobre el semestre en curso.</li>
+            <li><strong>Vacaciones</strong> (Art. 186 y 192 CST): 15 días hábiles por año. Base = salario ordinario, <strong>sin</strong> auxilio de transporte.</li>
+          </ul>
+          <p class="disclaimer">
+            Cálculo orientativo con auxilio de transporte 2026 = $249.095 (se incluye si el salario es ≤ 2 salarios
+            mínimos = $3.501.810). Días en base 360 (mes = 30 días). Asume que las cesantías del periodo no se
+            consignaron antes a un fondo y que la prima corresponde al semestre en curso. No incluye indemnización por
+            despido sin justa causa. Antes de firmar una liquidación, verifica con tu empleador y las fuentes del
+            Ministerio del Trabajo.
+          </p>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <span class="mark">GEOSDATA</span>
+        <p>Productos digitales enfocados en problemas comunes.</p>
+        <span class="foot-mono">geosdata.com</span>
+      </footer>
+    </div>
+
+    <script is:inline>
+      const AUX_TRANSPORTE = 249095;
+      const TOPE_AUXILIO = 3501810;
+      const INTERES_CESANTIAS = 0.12;
+
+      const money = (value) =>
+        new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(Math.round(value));
+
+      function days360(start, end) {
+        let d1 = start.getDate(), m1 = start.getMonth(), y1 = start.getFullYear();
+        let d2 = end.getDate(), m2 = end.getMonth(), y2 = end.getFullYear();
+        if (d1 === 31) d1 = 30;
+        if (d2 === 31 && d1 === 30) d2 = 30;
+        return (y2 - y1) * 360 + (m2 - m1) * 30 + (d2 - d1);
+      }
+
+      function renderResult(salary, start, end, result) {
+        const dias = days360(start, end);
+        const baseConAux = salary + (salary <= TOPE_AUXILIO ? AUX_TRANSPORTE : 0);
+
+        const semStart = new Date(end.getFullYear(), end.getMonth() <= 5 ? 0 : 6, 1);
+        const primaStart = start > semStart ? start : semStart;
+        const primaDias = Math.max(0, days360(primaStart, end));
+
+        const cesantias = (baseConAux * dias) / 360;
+        const intereses = (cesantias * dias * INTERES_CESANTIAS) / 360;
+        const prima = (baseConAux * primaDias) / 360;
+        const vacaciones = (salary * dias) / 720;
+        const total = cesantias + intereses + prima + vacaciones;
+
+        let html = `<div class="line"><span>Días liquidados (base 360)</span><b>${dias}</b></div>`;
+        html += `<div class="line"><span>Cesantías</span><b>${money(cesantias)}</b></div>`;
+        html += `<div class="line"><span>Intereses sobre cesantías (12%)</span><b>${money(intereses)}</b></div>`;
+        html += `<div class="line"><span>Prima de servicios (semestre: ${primaDias} días)</span><b>${money(prima)}</b></div>`;
+        html += `<div class="line"><span>Vacaciones</span><b>${money(vacaciones)}</b></div>`;
+        html += `<div class="line total"><span>Total a recibir</span><b>${money(total)}</b></div>`;
+        if (salary <= TOPE_AUXILIO) {
+          html += `<p class="ok-note">Se incluyó el auxilio de transporte ($${AUX_TRANSPORTE.toLocaleString('es-CO')}) en cesantías y prima.</p>`;
+        }
+
+        result.innerHTML = html;
+        result.hidden = false;
+      }
+
+      const form = document.getElementById('liq-form');
+      const result = document.getElementById('liq-result');
+      const hook = document.getElementById('hook');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const salary = parseFloat(form.elements['salary'].value);
+        const startValue = form.elements['start'].value;
+        const endValue = form.elements['end'].value;
+
+        if (!Number.isFinite(salary) || salary <= 0 || !startValue || !endValue) {
+          result.innerHTML = '<div class="line"><span>Completa salario, fecha de ingreso y fecha de retiro.</span></div>';
+          result.hidden = false;
+          return;
+        }
+        const start = new Date(startValue + 'T00:00:00');
+        const end = new Date(endValue + 'T00:00:00');
+        if (end <= start) {
+          result.innerHTML = '<div class="line"><span>La fecha de retiro debe ser posterior a la de ingreso.</span></div>';
+          result.hidden = false;
+          return;
+        }
+        renderResult(salary, start, end, result);
+        hook.hidden = false;
+      });
+
+      const hookForm = document.getElementById('hook-form');
+      const hookStatus = document.getElementById('hook-status');
+
+      hookForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const button = hookForm.querySelector('button');
+        button.disabled = true;
+        hookStatus.textContent = 'Enviando...';
+        try {
+          const payload = {
+            name: hookForm.elements['name'].value,
+            email: hookForm.elements['email'].value,
+            subject: 'Liquidación — mi caso',
+            message: hookForm.elements['message'].value,
+            company: hookForm.elements['company'].value,
+          };
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const data = await response.json();
+          if (response.ok && data.ok) {
+            hookForm.reset();
+            hookStatus.textContent = 'Listo, te respondo pronto. Gracias.';
+          } else {
+            hookStatus.textContent = 'No se pudo enviar. Inténtalo de nuevo en un momento.';
+          }
+        } catch {
+          hookStatus.textContent = 'No se pudo enviar. Inténtalo de nuevo en un momento.';
+        } finally {
+          button.disabled = false;
+        }
+      });
+    </script>
+
+    <style is:global>
+      :root {
+        --paper: #f1f1ec; --paper-2: #eceae3; --ink: #17201b; --ink-soft: #5b625b;
+        --line: #d5d4cb; --accent: #0f6e4e; --accent-ink: #0a4d36; --accent-soft: #e2ede7; --warn: #8a5109;
+        --font-mono: 'IBM Plex Mono', ui-monospace, "Consolas", monospace;
+        --font-sans: 'Archivo Variable', system-ui, -apple-system, "Segoe UI", sans-serif;
+        --wrap: 780px;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+      .top { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2rem); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+      .brand { text-decoration: none; display: flex; align-items: center; gap: 0.55rem; }
+      .brand-mark { display: inline-flex; color: var(--accent-ink); }
+      .brand-mark svg { width: 20px; height: 20px; }
+      .mark { font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.06em; color: var(--ink); font-size: 1rem; }
+      .back { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-soft); text-decoration: none; }
+      .back:hover { color: var(--accent-ink); }
+
+      .tool { max-width: var(--wrap); margin: 0 auto; padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2rem) 5rem; display: flex; flex-direction: column; gap: 2.5rem; }
+      .eyebrow { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72rem; color: var(--accent-ink); margin-bottom: 1rem; }
+      h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); color: var(--ink); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 1.1rem; font-weight: 800; text-wrap: balance; }
+      .lead { font-size: 1.08rem; color: #2c332c; max-width: 60ch; }
+
+      .rec-form { display: grid; gap: 1.1rem; background: #fff; border: 1px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); padding: 1.8rem; }
+      .field { display: flex; flex-direction: column; gap: 0.4rem; }
+      .field label { font-family: var(--font-mono); color: var(--ink-soft); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; }
+      .field label span { text-transform: none; letter-spacing: 0; color: var(--ink-soft); }
+      input { font-family: var(--font-mono); padding: 0.7rem 0.8rem; background: var(--paper); border: 1px solid var(--line); color: var(--ink); font-size: 0.95rem; width: 100%; }
+      input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+      button { font-family: var(--font-mono); padding: 0.85rem 1.4rem; background: var(--accent); color: #fff; border: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.02em; cursor: pointer; transition: background 0.2s; justify-self: start; }
+      button:hover:not(:disabled) { background: var(--accent-ink); }
+      button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+      .rec-result { background: #fff; border: 1px solid var(--ink); padding: 1.5rem 1.8rem; margin-top: 1.4rem; }
+      .rec-result .line { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
+      .rec-result .line:last-child { border-bottom: none; }
+      .rec-result .line span { color: var(--ink-soft); }
+      .rec-result .line b { color: var(--ink); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+      .rec-result .total { margin-top: 0.4rem; padding-top: 0.9rem; border-top: 1px dashed var(--line) !important; font-size: 1.05rem; }
+      .rec-result .total b { color: var(--accent-ink); font-size: 1.15rem; }
+      .rec-result .ok-note { margin-top: 1rem; color: var(--accent-ink); font-size: 0.85rem; }
+
+      .hook { background: var(--accent-soft); border: 1px solid var(--accent); padding: 1.8rem; }
+      .hook h2 { color: var(--accent-ink); font-size: 1.35rem; margin-bottom: 0.6rem; letter-spacing: -0.01em; }
+      .hook p { color: #2c332c; }
+      .hook-form { display: grid; gap: 0.9rem; margin-top: 1.2rem; }
+      .hook-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+      .hook-form input, .hook-form textarea { background: #fff; border-color: var(--accent); }
+      .hook-status { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-ink); min-height: 1.1rem; }
+      .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+      .notes h2 { color: var(--ink); font-size: 1.2rem; margin-bottom: 1rem; letter-spacing: -0.01em; }
+      .notes ul { padding-left: 1.2rem; display: grid; gap: 0.6rem; margin-bottom: 1.25rem; color: #2c332c; }
+      .notes strong { color: var(--ink); }
+      .disclaimer { font-size: 0.85rem; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 1rem; }
+
+      .foot { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2rem) 3rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+      .foot p { color: var(--ink-soft); font-size: 0.86rem; flex: 1; min-width: 180px; }
+      .foot-mono { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; color: var(--ink-soft); }
+
+      a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+      @media (max-width: 560px) { .hook-row { grid-template-columns: 1fr; } }
+    </style>
+  </body>
+</html>

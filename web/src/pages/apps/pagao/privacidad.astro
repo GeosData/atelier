@@ -1,0 +1,89 @@
+---
+import Layout from '../../../layouts/apps/PagaoBase.astro';
+---
+<Layout title="Política de Tratamiento de Datos — Pagao" description="Política de tratamiento de datos personales — Pagao (Ley 1581 Colombia).">
+  <article class="prose">
+    <h1>Política de Tratamiento de Datos Personales</h1>
+    <p class="meta">Vigente desde 2026-05-03</p>
+
+    <h2>1. Responsable del tratamiento</h2>
+    <p>
+      El responsable del tratamiento de los datos recogidos por Pagao es
+      <strong>Jose Eduardo Tirado Verbel</strong>, persona natural, con cédula
+      de ciudadanía colombiana, ubicado en Montería, Colombia. Contacto:
+      <a href="mailto:hola@pagao.geosdata.com">hola@pagao.geosdata.com</a>.
+    </p>
+    <p>Pagao opera bajo el ecosistema Geosdata pero como servicio independiente público.</p>
+
+    <h2>2. Datos que recolectamos</h2>
+    <ul>
+      <li><strong>Del titular del negocio (admin):</strong> nombre, email, teléfono, nombre del negocio.</li>
+      <li><strong>De los cobradores creados por el admin:</strong> nombre, teléfono, ubicación GPS al momento de registrar pagos (si autoriza).</li>
+      <li><strong>De los clientes/deudores cargados por el admin:</strong> nombre, teléfono, dirección, ubicación, monto del crédito y pagos realizados.</li>
+    </ul>
+
+    <h2>3. Finalidad</h2>
+    <ul>
+      <li>Operar el servicio de cobranza en ruta contratado por el admin.</li>
+      <li>Registro de pagos, control de cartera y mapa de ruta del cobrador.</li>
+      <li>Cumplimiento de obligaciones legales y contractuales.</li>
+    </ul>
+
+    <h2>4. Autorización del titular</h2>
+    <p>
+      El admin del negocio se compromete a obtener autorización expresa de cada
+      deudor antes de cargar sus datos en Pagao. Pagao provee plantilla de
+      autorización descargable en la aplicación.
+    </p>
+
+    <h2>5. Derechos del titular (Ley 1581 Colombia)</h2>
+    <p>
+      Cualquier titular puede ejercer sus derechos de Acceso, Rectificación,
+      Cancelación y Oposición (ARCO) escribiendo a
+      <a href="mailto:datos@pagao.geosdata.com">datos@pagao.geosdata.com</a> con
+      copia de su documento de identidad. Respondemos en máx 15 días hábiles.
+    </p>
+
+    <h2 id="eliminacion">6. Conservación y eliminación</h2>
+    <p>
+      Los datos se conservan mientras la cuenta esté activa. Al cancelar, los
+      datos se mantienen 90 días en hold para recuperación y luego se eliminan
+      permanentemente.
+    </p>
+    <p>
+      El admin puede solicitar eliminación total inmediata de su cuenta y todos
+      los datos asociados desde el panel.
+    </p>
+
+    <h2>7. Seguridad</h2>
+    <p>
+      Datos almacenados en infraestructura cloud con HTTPS, encriptación en
+      tránsito y backups encriptados con retención de 30 días.
+    </p>
+
+    <h2>8. Transferencias</h2>
+    <p>
+      No vendemos ni cedemos datos a terceros con fines comerciales. Los datos
+      residen en infraestructura cloud (Google Cloud Run, Neon Postgres, Cloudflare).
+    </p>
+
+    <h2>9. Cambios a esta política</h2>
+    <p>
+      Notificaremos cambios materiales por email al admin del negocio con 15
+      días de anticipación.
+    </p>
+
+    <h2>10. Contacto</h2>
+    <p><a href="mailto:hola@pagao.geosdata.com">hola@pagao.geosdata.com</a></p>
+  </article>
+</Layout>
+
+<style>
+  .prose { max-width: 48rem; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+  .prose h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .prose h2 { font-size: 1.1rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.5rem; }
+  .prose p, .prose li { font-size: 0.95rem; line-height: 1.75; color: #3f3f46; }
+  .prose ul { padding-left: 1.25rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  .prose a { color: #2563eb; text-decoration: underline; }
+  .meta { font-size: 0.85rem; color: #71717a; margin-bottom: 2rem; }
+</style>

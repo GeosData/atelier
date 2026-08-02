@@ -1,0 +1,89 @@
+---
+import { config } from '../../../data/apps/lugantes';
+---
+<section class="hero">
+  <div class="container">
+    <div class="logo">{config.iconLetter}</div>
+    <h1>{config.name}</h1>
+    <p class="tagline">{config.tagline}</p>
+    <p class="description">{config.longDescription}</p>
+    <div class="cta">
+      {config.playStoreReady ? (
+        <a href={config.playStoreUrl} class="btn-primary">Descargar en Play Store</a>
+      ) : (
+        <span class="btn-soon">Próximamente en Play Store</span>
+      )}
+      <a href="#features" class="btn-secondary">Ver características</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 5rem 0 4rem;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center top, color-mix(in oklab, var(--primary) 18%, transparent), transparent 60%);
+    pointer-events: none;
+  }
+  .container { position: relative; max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+  .logo {
+    width: 88px; height: 88px;
+    display: grid; place-items: center;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 22px;
+    font-size: 2.4rem; font-weight: 800;
+    color: #0b0712;
+    box-shadow: 0 20px 60px -20px color-mix(in oklab, var(--primary) 60%, transparent);
+  }
+  h1 {
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    color: var(--text-strong);
+    line-height: 1.1;
+    margin-bottom: 0.8rem;
+    font-weight: 800;
+  }
+  .tagline {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+  }
+  .description {
+    color: var(--text-muted);
+    margin: 0 auto 2rem;
+    max-width: 620px;
+  }
+  .cta { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary, .btn-secondary, .btn-soon {
+    padding: 0.85rem 1.6rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.98rem;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #0b0712;
+  }
+  .btn-primary:hover { text-decoration: none; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-strong);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { background: var(--bg-elevated); text-decoration: none; }
+  .btn-soon {
+    background: var(--bg-elevated);
+    color: var(--text-muted);
+    border: 1px dashed var(--border);
+    cursor: not-allowed;
+  }
+</style>
