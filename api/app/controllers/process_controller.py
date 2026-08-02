@@ -25,6 +25,11 @@ async def handle(slug: str, file: UploadFile) -> dict:
             status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
             f"{mime} not accepted, expected {product.accepted_mime}",
         )
+    except Exception:
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY,
+            "no se pudo procesar el archivo, intentá de nuevo en un momento",
+        )
 
     return {"product": product.slug, "result": result.model_dump()}
 

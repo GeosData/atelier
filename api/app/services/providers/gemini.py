@@ -30,6 +30,8 @@ class GeminiVisionProvider:
                         response_schema=schema,
                     ),
                 )
+                if not response.text:
+                    raise ValueError("empty model response")
                 return schema.model_validate_json(response.text)
             except errors.APIError as error:
                 last = attempt == self._max_attempts - 1
