@@ -20,11 +20,13 @@ Discovery completo en `docs/products/exam/` (00-04). Diferencial verificado por 
 ## Gobernanza / infra (transversal)
 - [x] Repo git local
 - [x] Repo remoto GitHub `GeosData/atelier` + push (SSH, rama `main`)
-- [ ] Deploy: api → Cloud Run, web → CF Pages (wrangler)
+- [x] Deploy: api → Cloud Run (`https://atelier-448285277410.us-central1.run.app`, proyecto geosdata, us-central1) · web → CF Pages (`https://atelier-af1.pages.dev`). Verificado prod e2e (receipt con imagen real). Seguimiento: mover `GEMINI_API_KEY` de env-var a Secret Manager.
 - [x] Nombre final de la fábrica: `atelier` (confirmado Josse)
 - [x] Robustez: provider Gemini reintenta 429/500/503 con backoff exponencial (4 intentos)
 - [ ] Tracker Linear (team GeosData) — este ROADMAP.md es puente hasta entonces
-- [ ] Subdominio por producto (o dominio propio si crece)
+- [x] Front en `atelier.geosdata.com` (CF Pages custom domain, sirve 200). API en run.app.
+- [ ] `api.atelier.geosdata.com` → requiere Cloud Run domain-mapping + verificación de dominio (diferido; run.app funciona, el usuario no la ve). Hoy la web apunta a la run.app.
+- [ ] Landing por producto en subdominio propio si un producto crece (hoy todos bajo `atelier.geosdata.com/product.html?p=<slug>`)
 
 ## Regla
 El motor no se toca para sumar producto: nuevo producto = `products/<slug>.py` + import + landing. Ver `docs/handbook/01-Architecture.md`.
