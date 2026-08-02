@@ -18,7 +18,7 @@ Discovery completo en `docs/products/exam/` (00-04). Diferencial verificado por 
 
 ## Gobernanza / infra (transversal)
 - [x] Repo git local
-- [ ] Repo remoto GitHub `GeosData/atelier` + push
+- [x] Repo remoto GitHub `GeosData/atelier` + push (SSH, rama `main`)
 - [ ] Deploy: api → Cloud Run, web → CF Pages (wrangler)
 - [ ] Nombre final de la fábrica (working `atelier`)
 - [ ] Tracker Linear (team GeosData) — este ROADMAP.md es puente hasta entonces
