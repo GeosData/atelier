@@ -18,4 +18,7 @@ def _provider() -> GeminiVisionProvider:
 def run(product: Product, content: bytes, mime: str) -> BaseModel:
     if mime not in product.accepted_mime:
         raise UnsupportedMimeError(mime)
-    return _provider().extract(content, mime, product.prompt, product.output_schema)
+    prompt = product.prompt
+    if product.context:
+        prompt = f"{prompt}\n\nReference knowledge:\n{product.context}"
+    return _provider().extract(content, mime, prompt, product.output_schema)
