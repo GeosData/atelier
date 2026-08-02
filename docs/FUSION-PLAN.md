@@ -20,13 +20,15 @@
 ## Orden de ejecución (reversible-first)
 
 1. **[hecho]** Motor soporta tipo determinista + `punto-equilibrio` portada (prueba e2e).
-2. **Portar las 7 calculadoras restantes** a `tools/` (mecánico: fórmula → función pura + schema). Reversible, no toca geosdata.com.
-3. **Decidir el front de atelier** (bifurcación pendiente): 
-   - (a) **mover** el Astro de geosdata-com dentro de `atelier/web` (monorepo paraguas: `api/` + `web/`). Menos churn: se mueve, no se reconstruye. Las páginas de calculadora pasan a llamar `/compute`; las de IA a `/process`.
-   - (b) reconstruir el front en atelier desde cero (más churn, oportunidad de matar el look Inter).
-4. **Migrar vitrinas de producto + newsletter + blog** al front de atelier.
-5. **Cutover DNS** geosdata.com → deploy de atelier (RIESGOSO, gated). Verificar en pages.dev antes.
-6. **Retirar geosdata-com** (repo/deploy) solo tras cutover verificado. Nunca antes.
+2. **[hecho]** 7 calculadoras restantes portadas a `tools/` (fórmulas transcritas fielmente, auditadas, 8 tools VIVAS en prod `/compute` rev 00003).
+3. **[hecho 3a]** Front Astro de geosdata-com COPIADO a `atelier/web` (43 rutas, build OK). Dirección elegida: (a) mover, no reconstruir. Galería estática vieja en `web/_legacy-static/`. Sitio vivo geosdata-com intacto.
+4. **[pendiente] Integración del front** (reversible, no toca prod):
+   - Rewire de las 8 páginas de calculadora Astro → llamar `POST /compute/{slug}` (hoy tienen la lógica inline duplicada; converger a la del motor).
+   - Páginas Astro para las 4 tools de IA (receipt/exam/crop/waste) → `POST /process/{slug}` (hoy solo estaban en la galería estática, respaldada).
+   - Home/taller lista también las tools de IA.
+   - Mejora de diseño (matar look Inter) — después, no bloquear.
+5. **[gated] Cutover DNS** geosdata.com → deploy Astro de atelier. Verificar en pages.dev primero. Solo con go de Josse.
+6. **[gated] Retirar geosdata-com** (repo/deploy) solo tras cutover verificado.
 
 ## Reglas de seguridad
 
