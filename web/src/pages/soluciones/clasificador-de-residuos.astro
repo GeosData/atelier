@@ -1,0 +1,254 @@
+---
+import '@fontsource-variable/archivo';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource/ibm-plex-mono/700.css';
+
+const title = 'Clasificador de residuos';
+const description = 'Sube una foto de un residuo y la IA te dice en qué caneca va, la categoría y cómo disponerlo bien. Herramienta gratis para separar bien la basura.';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://geosdata.com/soluciones/clasificador-de-residuos/" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <title>{title} · Geosdata</title>
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+          <span class="mark">GEOSDATA</span>
+        </a>
+        <a class="back" href="/">← Inicio</a>
+      </header>
+
+      <main class="tool">
+        <section class="intro">
+          <p class="eyebrow">Producto · IA</p>
+          <h1>¿En qué caneca va este residuo?</h1>
+          <p class="lead">
+            Sube una foto del residuo y la IA te dice qué es, en qué categoría entra, de qué color es la caneca y
+            cómo disponerlo bien. Para separar la basura sin dudar.
+          </p>
+        </section>
+
+        <section class="calculator">
+          <form id="tool-form" class="rec-form" novalidate>
+            <div class="field">
+              <label>Foto del residuo</label>
+              <div class="drop" id="drop" role="button" tabindex="0" aria-label="Subir foto del residuo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+                <span class="drop-main">Arrastra la foto aquí, o haz clic para elegir</span>
+                <span class="drop-sub" id="file-name">JPG o PNG</span>
+              </div>
+              <input type="file" id="file-input" accept="image/*" hidden />
+            </div>
+            <button type="submit">Procesar</button>
+          </form>
+
+          <p id="status" class="status" role="status"></p>
+          <div id="result" class="rec-result" hidden></div>
+        </section>
+
+        <section class="notes">
+          <h2>Cómo funciona</h2>
+          <ul>
+            <li>Toma la foto del residuo enfocado y con buena luz; funciona mejor con un solo objeto a la vez.</li>
+            <li>La IA identifica el objeto, la categoría y el color de caneca donde debería ir.</li>
+            <li>Las <strong>instrucciones</strong> te dicen si hay que limpiarlo, separarlo o llevarlo a un punto especial.</li>
+          </ul>
+          <p class="disclaimer">
+            La clasificación la hace un modelo de IA a partir de la imagen y sigue el código de colores general. El
+            esquema exacto puede cambiar según tu municipio o conjunto: ante la duda, revisa las normas locales de
+            separación en la fuente.
+          </p>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <span class="mark">GEOSDATA</span>
+        <p>Productos digitales enfocados en problemas comunes.</p>
+        <span class="foot-mono">geosdata.com</span>
+      </footer>
+    </div>
+
+    <script is:inline>
+      const API = 'https://atelier-448285277410.us-central1.run.app/process/waste';
+
+      const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const conf = (x) => {
+        if (x == null) return null;
+        let n = typeof x === 'number' ? x : parseFloat(x);
+        if (!Number.isFinite(n)) return null;
+        if (n <= 1) n = n * 100;
+        return Math.max(0, Math.min(100, Math.round(n)));
+      };
+      const confHtml = (c) => {
+        const v = conf(c);
+        if (v == null) return '';
+        return `<div class="conf"><span>Confianza</span><div class="conf-bar"><i style="width:${v}%"></i></div><b>${v}%</b></div>`;
+      };
+      const notesHtml = (t) => (t ? `<p class="res-note">${esc(t)}</p>` : '');
+      const BIN = {
+        blanco: '#f2f2ef', verde: '#2f8f4e', negro: '#2a2a2a', gris: '#8a8a86', gray: '#8a8a86', grey: '#8a8a86',
+        rojo: '#c0392b', azul: '#2b6cb0', amarillo: '#e0c341', naranja: '#e08a2b', cafe: '#7a5230', 'café': '#7a5230',
+        marron: '#7a5230', 'marrón': '#7a5230', white: '#f2f2ef', green: '#2f8f4e', black: '#2a2a2a', red: '#c0392b',
+        blue: '#2b6cb0', yellow: '#e0c341', orange: '#e08a2b', brown: '#7a5230',
+      };
+      const binColor = (name) => {
+        const key = String(name || '').trim().toLowerCase().split(/[\s/,-]/)[0];
+        return BIN[key] || '#b9bdb6';
+      };
+
+      function render(r) {
+        let h = '';
+        h += '<div class="res-block">';
+        h += `<div class="diag"><span class="res-h">Residuo</span><p class="diag-main">${esc(r.item || '—')}</p></div>`;
+        h += `<div class="line"><span>Categoría</span><b>${esc(r.category || '—')}</b></div>`;
+        if (r.bin_color) h += `<div class="line"><span>Caneca</span><b><span class="bin"><span class="bin-dot" style="background:${binColor(r.bin_color)}"></span>${esc(r.bin_color)}</span></b></div>`;
+        h += '</div>';
+
+        if (r.instructions) h += `<div class="res-block"><span class="res-h">Cómo disponerlo</span><p class="instr">${esc(r.instructions)}</p></div>`;
+
+        h += confHtml(r.confidence);
+        h += notesHtml(r.notes);
+        result.innerHTML = h;
+        result.hidden = false;
+      }
+
+      const form = document.getElementById('tool-form');
+      const drop = document.getElementById('drop');
+      const fileInput = document.getElementById('file-input');
+      const fileName = document.getElementById('file-name');
+      const status = document.getElementById('status');
+      const result = document.getElementById('result');
+      let file = null;
+
+      function setFile(f) {
+        file = f || null;
+        fileName.textContent = file ? file.name : 'JPG o PNG';
+      }
+
+      drop.addEventListener('click', () => fileInput.click());
+      drop.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+      });
+      fileInput.addEventListener('change', () => setFile(fileInput.files[0]));
+      ['dragenter', 'dragover'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('drag'); }));
+      ['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('drag'); }));
+      drop.addEventListener('drop', (e) => { if (e.dataTransfer.files && e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!file) { status.className = 'status err'; status.textContent = 'Primero elige una foto.'; return; }
+        const button = form.querySelector('button');
+        button.disabled = true;
+        status.className = 'status';
+        status.textContent = 'Procesando… esto puede tardar unos segundos.';
+        result.hidden = true;
+        try {
+          const fd = new FormData();
+          fd.append('file', file);
+          const res = await fetch(API, { method: 'POST', body: fd });
+          if (!res.ok) throw new Error('status ' + res.status);
+          const data = await res.json();
+          if (!data || !data.result) throw new Error('empty');
+          render(data.result);
+          status.textContent = '';
+        } catch {
+          status.className = 'status err';
+          status.textContent = 'No pudimos identificar el residuo. Asegúrate de que sea una foto clara de un solo objeto, e inténtalo de nuevo.';
+        } finally {
+          button.disabled = false;
+        }
+      });
+    </script>
+
+    <style is:global>
+      :root {
+        --paper: #f1f1ec; --paper-2: #eceae3; --ink: #17201b; --ink-soft: #5b625b;
+        --line: #d5d4cb; --accent: #0f6e4e; --accent-ink: #0a4d36; --accent-soft: #e2ede7; --warn: #8a5109;
+        --font-mono: 'IBM Plex Mono', ui-monospace, "Consolas", monospace;
+        --font-sans: 'Archivo Variable', system-ui, -apple-system, "Segoe UI", sans-serif;
+        --wrap: 780px;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+      .top { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2rem); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+      .brand { text-decoration: none; display: flex; align-items: center; gap: 0.55rem; }
+      .brand-mark { display: inline-flex; color: var(--accent-ink); }
+      .brand-mark svg { width: 20px; height: 20px; }
+      .mark { font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.06em; color: var(--ink); font-size: 1rem; }
+      .back { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-soft); text-decoration: none; }
+      .back:hover { color: var(--accent-ink); }
+
+      .tool { max-width: var(--wrap); margin: 0 auto; padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2rem) 5rem; display: flex; flex-direction: column; gap: 2.5rem; }
+      .eyebrow { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72rem; color: var(--accent-ink); margin-bottom: 1rem; }
+      h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); color: var(--ink); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 1.1rem; font-weight: 800; text-wrap: balance; }
+      .lead { font-size: 1.08rem; color: #2c332c; max-width: 60ch; }
+
+      .rec-form { display: grid; gap: 1.1rem; background: #fff; border: 1px solid var(--ink); box-shadow: 8px 8px 0 var(--ink); padding: 1.8rem; }
+      .field { display: flex; flex-direction: column; gap: 0.4rem; }
+      .field label { font-family: var(--font-mono); color: var(--ink-soft); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; }
+      button { font-family: var(--font-mono); padding: 0.85rem 1.4rem; background: var(--accent); color: #fff; border: none; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.02em; cursor: pointer; transition: background 0.2s; justify-self: start; }
+      button:hover:not(:disabled) { background: var(--accent-ink); }
+      button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+      .drop { border: 2px dashed var(--line); background: var(--paper); padding: 2.2rem 1.5rem; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; transition: border-color 0.15s, background 0.15s; }
+      .drop:hover, .drop.drag { border-color: var(--accent); background: var(--accent-soft); }
+      .drop svg { width: 34px; height: 34px; color: var(--accent-ink); }
+      .drop-main { font-size: 0.95rem; color: var(--ink); }
+      .drop-sub { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em; color: var(--ink-soft); word-break: break-all; }
+
+      .status { font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-soft); min-height: 1.1rem; margin-top: 0.9rem; }
+      .status.err { color: var(--warn); }
+
+      .rec-result { background: #fff; border: 1px solid var(--ink); padding: 1.5rem 1.8rem; margin-top: 1.4rem; }
+      .rec-result .line { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid var(--line); font-size: 0.92rem; align-items: center; }
+      .rec-result .line:last-child { border-bottom: none; }
+      .rec-result .line span { color: var(--ink-soft); }
+      .rec-result .line b { color: var(--ink); font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; }
+
+      .res-block { margin-top: 1.5rem; }
+      .res-block:first-child { margin-top: 0; }
+      .res-h { display: block; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 0.6rem; }
+
+      .diag { margin-bottom: 0.9rem; }
+      .diag-main { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); margin-top: 0.3rem; text-wrap: balance; }
+      .bin { display: inline-flex; align-items: center; gap: 0.5rem; }
+      .bin-dot { width: 16px; height: 16px; border: 1px solid rgba(0, 0, 0, 0.25); border-radius: 3px; flex: none; }
+      .instr { font-size: 0.92rem; color: #2c332c; }
+
+      .conf { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px dashed var(--line); display: flex; align-items: center; gap: 0.8rem; }
+      .conf > span { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); white-space: nowrap; }
+      .conf-bar { flex: 1; height: 8px; background: var(--paper-2); border: 1px solid var(--line); position: relative; }
+      .conf-bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
+      .conf b { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent-ink); }
+      .res-note { margin-top: 1.1rem; font-size: 0.82rem; color: var(--ink-soft); font-style: italic; }
+
+      .notes h2 { color: var(--ink); font-size: 1.2rem; margin-bottom: 1rem; letter-spacing: -0.01em; }
+      .notes ul { padding-left: 1.2rem; display: grid; gap: 0.6rem; margin-bottom: 1.25rem; color: #2c332c; }
+      .notes strong { color: var(--ink); }
+      .disclaimer { font-size: 0.85rem; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 1rem; }
+
+      .foot { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2rem) 3rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+      .foot p { color: var(--ink-soft); font-size: 0.86rem; flex: 1; min-width: 180px; }
+      .foot-mono { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; color: var(--ink-soft); }
+
+      a:focus-visible, button:focus-visible, .drop:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+    </style>
+  </body>
+</html>

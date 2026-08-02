@@ -49,7 +49,7 @@ export const home = {
     work: {
       eyebrow: 'El taller',
       title: 'Productos que puedes probar hoy',
-      filters: { all: 'Todos', laboral: 'Laboral', comercio: 'Negocio', salud: 'Salud', inmobiliario: 'Vivienda', contable: 'Contable' },
+      filters: { all: 'Todos', laboral: 'Laboral', comercio: 'Negocio', salud: 'Salud', inmobiliario: 'Vivienda', contable: 'Contable', ia: 'IA' },
     },
     cards: [
       { sector: 'comercio', cat: 'APP', status: 'ok', statusLabel: 'DEMO', href: '/anota-lo/', title: 'anota.lo · cuentas por voz', desc: 'Lleva las ventas y el fiado del negocio hablándole al teléfono. App offline en desarrollo, con demo jugable.', link: 'Ver la demo →' },
@@ -62,6 +62,10 @@ export const home = {
       { sector: 'comercio', cat: 'NEGOCIO', status: 'ok', statusLabel: 'EN LÍNEA', href: '/soluciones/calculadora-punto-de-equilibrio/', title: 'Punto de equilibrio', desc: 'Cuánto tienes que vender para no perder, en unidades y en pesos.', link: 'Probar →' },
       { sector: 'comercio', cat: 'NEGOCIO', status: 'ok', statusLabel: 'EN LÍNEA', href: '/soluciones/generador-de-cotizacion/', title: 'Generador de cotización', desc: 'Arma una cotización con tu negocio y tus ítems, y descárgala en PDF para enviarla.', link: 'Probar →' },
       { sector: 'comercio', cat: 'NEGOCIO', status: 'ok', statusLabel: 'EN LÍNEA', href: '/soluciones/generador-de-qr/', title: 'Generador de código QR', desc: 'QR para WhatsApp, WiFi, teléfono o tu link, listo para imprimir. Sin marcas de agua.', link: 'Probar →' },
+      { sector: 'ia', cat: 'IA', status: 'ok', statusLabel: 'EN LÍNEA', href: '/soluciones/factura-a-datos/', title: 'Factura a datos', desc: 'Sube la foto o el PDF de una factura y extrae proveedor, ítems, IVA y total en una tabla lista para usar.', link: 'Probar →' },
+      { sector: 'ia', cat: 'IA', status: 'ok', statusLabel: 'EN LÍNEA', href: '/soluciones/revisor-de-examenes/', title: 'Revisor de exámenes', desc: 'Sube un examen resuelto y obtén la nota, el detalle por pregunta y una alerta cuando el dominio parece inflado.', link: 'Probar →' },
+      { sector: 'ia', cat: 'IA', status: 'ok', statusLabel: 'EN LÍNEA', href: '/soluciones/diagnostico-de-cultivo/', title: 'Diagnóstico de cultivo', desc: 'Sube una foto de la hoja o el fruto y recibe un diagnóstico, la severidad y qué hacer para tratarlo.', link: 'Probar →' },
+      { sector: 'ia', cat: 'IA', status: 'ok', statusLabel: 'EN LÍNEA', href: '/soluciones/clasificador-de-residuos/', title: 'Clasificador de residuos', desc: 'Sube una foto de un residuo y te decimos en qué caneca va y cómo disponerlo bien.', link: 'Probar →' },
     ],
     strip: { key: 'CONSTRUIDO A LA VISTA', line: 'Escribo cómo hice cada producto y qué encontré por el camino.', m1: 'en línea', m2: 'en curso', m3: '2026' },
     cases: {
@@ -138,7 +142,7 @@ export const home = {
     work: {
       eyebrow: 'The workshop',
       title: 'Products you can try today',
-      filters: { all: 'All', laboral: 'Labor', comercio: 'Business', salud: 'Health', inmobiliario: 'Housing', contable: 'Accounting' },
+      filters: { all: 'All', laboral: 'Labor', comercio: 'Business', salud: 'Health', inmobiliario: 'Housing', contable: 'Accounting', ia: 'AI' },
     },
     cards: [
       { sector: 'comercio', cat: 'APP', status: 'ok', statusLabel: 'DEMO', href: '/anota-lo/', title: 'anota.lo · voice ledger', desc: 'Track a shop’s sales and credit by talking to your phone. Offline app in the works, with a playable demo.', link: 'See the demo →' },
@@ -151,6 +155,10 @@ export const home = {
       { sector: 'comercio', cat: 'BUSINESS', status: 'ok', statusLabel: 'LIVE', href: '/soluciones/calculadora-punto-de-equilibrio/', title: 'Break-even point', desc: 'How much you must sell to stop losing, in units and in pesos.', link: 'Try it →' },
       { sector: 'comercio', cat: 'BUSINESS', status: 'ok', statusLabel: 'LIVE', href: '/soluciones/generador-de-cotizacion/', title: 'Quote generator', desc: 'Build a quote with your business and line items, and download it as a PDF to send.', link: 'Try it →' },
       { sector: 'comercio', cat: 'BUSINESS', status: 'ok', statusLabel: 'LIVE', href: '/soluciones/generador-de-qr/', title: 'QR code generator', desc: 'QR for WhatsApp, WiFi, phone or your link, ready to print. No watermarks.', link: 'Try it →' },
+      { sector: 'ia', cat: 'AI', status: 'ok', statusLabel: 'LIVE', href: '/soluciones/factura-a-datos/', title: 'Invoice to data', desc: 'Upload a photo or PDF of an invoice and pull vendor, line items, VAT and total into a ready-to-use table.', link: 'Try it →' },
+      { sector: 'ia', cat: 'AI', status: 'ok', statusLabel: 'LIVE', href: '/soluciones/revisor-de-examenes/', title: 'Exam reviewer', desc: 'Upload a solved exam and get the score, a per-question breakdown and an alert when mastery looks inflated.', link: 'Try it →' },
+      { sector: 'ia', cat: 'AI', status: 'ok', statusLabel: 'LIVE', href: '/soluciones/diagnostico-de-cultivo/', title: 'Crop diagnosis', desc: 'Upload a photo of a leaf or fruit and get a diagnosis, severity and what to do to treat it.', link: 'Try it →' },
+      { sector: 'ia', cat: 'AI', status: 'ok', statusLabel: 'LIVE', href: '/soluciones/clasificador-de-residuos/', title: 'Waste classifier', desc: 'Upload a photo of a waste item and we tell you which bin it goes in and how to dispose of it right.', link: 'Try it →' },
     ],
     strip: { key: 'BUILT IN THE OPEN', line: 'I write up how I built each product and what I found along the way.', m1: 'live', m2: 'building', m3: '2026' },
     cases: {
