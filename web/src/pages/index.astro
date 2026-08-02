@@ -1,4 +1,196 @@
 ---
-import Home from '../components/Home.astro';
+import '@fontsource-variable/archivo';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource/ibm-plex-mono/700.css';
+
+const title = 'Geosdata — Herramientas';
+const description = 'Herramientas gratis para tu negocio: calculadoras laborales, contables, de precios y utilidades con IA. Úsalas ahora mismo, sin instalar nada.';
+
+const filters = [
+  { id: 'all', label: 'Todas' },
+  { id: 'comercio', label: 'Negocio' },
+  { id: 'laboral', label: 'Laboral' },
+  { id: 'contable', label: 'Contable' },
+  { id: 'inmobiliario', label: 'Vivienda' },
+  { id: 'ia', label: 'IA' },
+];
+
+const tools = [
+  { sector: 'comercio', cat: 'NEGOCIO', href: '/soluciones/calculadora-precio-de-venta/', title: 'Precio de venta y margen', desc: 'A cómo vender para ganar lo que quieres: precio, ganancia y margen real, con IVA opcional.' },
+  { sector: 'comercio', cat: 'NEGOCIO', href: '/soluciones/calculadora-punto-de-equilibrio/', title: 'Punto de equilibrio', desc: 'Cuánto tienes que vender para no perder, en unidades y en pesos.' },
+  { sector: 'comercio', cat: 'NEGOCIO', href: '/soluciones/generador-de-cotizacion/', title: 'Generador de cotización', desc: 'Arma una cotización con tu negocio y tus ítems, y descárgala en PDF para enviarla.' },
+  { sector: 'comercio', cat: 'NEGOCIO', href: '/soluciones/generador-de-qr/', title: 'Generador de código QR', desc: 'QR para WhatsApp, WiFi, teléfono o tu link, listo para imprimir. Sin marcas de agua.' },
+  { sector: 'laboral', cat: 'LABORAL', href: '/soluciones/calculadora-recargos-2026/', title: 'Recargos y horas extra', desc: 'Cuánto cuesta el trabajo nocturno, dominical y festivo con la norma vigente.' },
+  { sector: 'laboral', cat: 'LABORAL', href: '/soluciones/calculadora-liquidacion-contrato-2026/', title: 'Liquidación de contrato', desc: 'Cesantías, intereses, prima y vacaciones al terminar un contrato, sin sorpresas ni Excel.' },
+  { sector: 'laboral', cat: 'LABORAL', href: '/soluciones/calculadora-prima-servicios-2026/', title: 'Prima de servicios', desc: 'Cuánto te toca de prima: 30 días de salario al año (15 por semestre), con auxilio de transporte incluido.' },
+  { sector: 'contable', cat: 'CONTABLE', href: '/soluciones/calculadora-retencion-salarios-2026/', title: 'Retención en la fuente (salarios)', desc: 'Cuánta retención se descuenta de un salario, con la tabla del Art. 383 y el UVT vigente.' },
+  { sector: 'contable', cat: 'CONTABLE', href: '/soluciones/calculadora-retencion-pagos-2026/', title: 'Retención en la fuente (pagos)', desc: 'Cuánta retención practicar al pagarle a un proveedor: compras, servicios, honorarios, arriendo.' },
+  { sector: 'inmobiliario', cat: 'VIVIENDA', href: '/soluciones/calculadora-incremento-arriendo-2026/', title: 'Incremento legal de arriendo', desc: 'Cuánto se puede subir el arriendo este año según el IPC, y si el aumento que te proponen es legal.' },
+  { sector: 'ia', cat: 'IA', href: '/soluciones/factura-a-datos/', title: 'Factura a datos', desc: 'Sube la foto o el PDF de una factura y extrae proveedor, ítems, IVA y total en una tabla lista para usar.' },
+  { sector: 'ia', cat: 'IA', href: '/soluciones/revisor-de-examenes/', title: 'Revisor de exámenes', desc: 'Sube un examen resuelto y obtén la nota, el detalle por pregunta y una alerta cuando el dominio parece inflado.' },
+  { sector: 'ia', cat: 'IA', href: '/soluciones/diagnostico-de-cultivo/', title: 'Diagnóstico de cultivo', desc: 'Sube una foto de la hoja o el fruto y recibe un diagnóstico, la severidad y qué hacer para tratarlo.' },
+  { sector: 'ia', cat: 'IA', href: '/soluciones/clasificador-de-residuos/', title: 'Clasificador de residuos', desc: 'Sube una foto de un residuo y te decimos en qué caneca va y cómo disponerlo bien.' },
+];
+
+const cardVisuals = [
+  '<div class="mini-ui"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg></span><div class="mini-bar"><i></i><i></i><i></i></div><div class="mini-rows"><span class="w70"></span><span class="w50"></span><span class="hot w40"></span></div></div>',
+  '<div class="mini-ui"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 16.5h4"/></svg></span><div class="mini-bar"><i></i><i></i><i></i></div><div class="mini-rows"><span class="w60"></span><span class="w80"></span><span class="hot w30"></span></div></div>',
+  '<div class="mini-ui"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.5L5.2 17.4A1.5 1.5 0 0 0 6.5 19.7h11a1.5 1.5 0 0 0 1.3-2.3L14 8.5V3"/><path d="M7.5 15h9"/></svg></span><div class="mini-bar"><i></i><i></i><i></i></div><div class="mini-rows"><span class="w50"></span><span class="w70"></span><span class="w60"></span><span class="hot w40"></span></div></div>',
+  '<div class="mini-ui"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 20v-5M12 20V8m5 12v-8"/></svg></span><div class="mini-bar"><i></i><i></i><i></i></div><div class="mini-chart"><b style="height:40%"></b><b style="height:70%"></b><b style="height:55%" class="hot"></b><b style="height:85%"></b><b style="height:60%"></b></div></div>',
+  '<div class="mini-ui"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></span><div class="mini-bar"><i></i><i></i><i></i></div><div class="mini-rows"><span class="w70"></span><span class="hot w50"></span></div></div>',
+  '<div class="mini-ui"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><circle cx="8" cy="8" r="2.2"/><circle cx="16" cy="16" r="2.2"/></svg></span><div class="mini-bar"><i></i><i></i><i></i></div><div class="mini-rows"><span class="w60"></span><span class="w40"></span><span class="hot w70"></span></div></div>',
+];
 ---
-<Home lang="es" />
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://geosdata.com/" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <a class="brand" href="https://geosdata.com">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+          <span class="brand-text">
+            <span class="mark">GEOSDATA</span>
+            <span class="brand-sub">HERRAMIENTAS</span>
+          </span>
+        </a>
+      </header>
+
+      <main class="taller">
+        <div class="section-head">
+          <p class="eyebrow">El taller · {tools.length} herramientas</p>
+          <h1>Herramientas para tu negocio</h1>
+          <p class="section-lead">Calculadoras y utilidades que se usan en el navegador, sin instalar nada. Elige la que necesitas y ábrela.</p>
+          <div class="filters" id="filters">
+            {filters.map((f, i) => (
+              <button class={`chip ${i === 0 ? 'is-active' : ''}`} data-filter={f.id}>{f.label}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="grid" id="grid">
+          {tools.map((c, i) => (
+            <a class="card" href={c.href} data-sector={c.sector}>
+              <Fragment set:html={cardVisuals[i % cardVisuals.length]} />
+              <div class="card-body">
+                <div class="card-tags"><span class="tag tag-ok">{c.cat}</span></div>
+                <h3>{c.title}</h3>
+                <p>{c.desc}</p>
+                <span class="card-link">Abrir →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </main>
+
+      <footer class="foot">
+        <span class="mark">GEOSDATA</span>
+        <p>Herramientas gratis para negocios pequeños.</p>
+        <a class="foot-mono" href="https://geosdata.com">geosdata.com</a>
+      </footer>
+    </div>
+
+    <style is:global>
+      :root {
+        --paper: #f1f1ec; --paper-2: #eceae3; --ink: #17201b; --ink-soft: #5b625b;
+        --line: #d5d4cb; --accent: #0f6e4e; --accent-ink: #0a4d36; --accent-soft: #e2ede7; --warn: #8a5109; --muted: #6b7169;
+        --font-mono: 'IBM Plex Mono', ui-monospace, "Consolas", monospace;
+        --font-sans: 'Archivo Variable', system-ui, -apple-system, "Segoe UI", sans-serif;
+        --wrap: 1120px;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--paper); color: var(--ink); font-family: var(--font-sans); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+      .page > main, .top, .foot { max-width: var(--wrap); margin-left: auto; margin-right: auto; padding-left: clamp(1.25rem, 4vw, 2.5rem); padding-right: clamp(1.25rem, 4vw, 2.5rem); }
+
+      .mark { font-family: var(--font-mono); font-weight: 700; letter-spacing: 0.06em; color: var(--ink); }
+      .eyebrow { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 1rem; }
+      .tag { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.1em; padding: 0.25rem 0.5rem; border: 1px solid var(--line); color: var(--ink-soft); background: var(--paper); white-space: nowrap; }
+      .tag-ok { color: var(--accent-ink); border-color: var(--accent); background: var(--accent-soft); }
+
+      .top { display: flex; align-items: center; justify-content: space-between; padding-top: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); gap: 1rem; position: relative; z-index: 5; }
+      .brand { text-decoration: none; display: flex; flex-direction: row; align-items: center; gap: 0.6rem; line-height: 1.1; }
+      .brand .mark { font-size: 1.05rem; }
+      .brand-sub { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.22em; color: var(--ink-soft); margin-top: 0.2rem; }
+      .brand-mark { display: inline-flex; color: var(--accent-ink); }
+      .brand-mark svg { width: 20px; height: 20px; }
+      .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+
+      .taller { padding-bottom: clamp(2.5rem, 6vw, 4rem); }
+      .section-head { padding-top: clamp(2.5rem, 6vw, 4rem); margin-bottom: 2rem; }
+      .section-head h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.08; letter-spacing: -0.02em; font-weight: 800; text-wrap: balance; }
+      .section-lead { font-size: 1.02rem; color: var(--ink-soft); max-width: 60ch; margin-top: 0.9rem; text-wrap: pretty; }
+
+      .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.6rem; }
+      .chip { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.03em; padding: 0.4rem 0.8rem; border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft); cursor: pointer; transition: all 0.15s; }
+      .chip:hover { border-color: var(--ink); color: var(--ink); }
+      .chip.is-active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+      .card { border: 1px solid var(--line); background: #fff; display: flex; flex-direction: column; text-decoration: none; color: var(--ink); transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s; }
+      .card:hover { transform: translateY(-4px); border-color: var(--ink); box-shadow: 6px 6px 0 var(--ink); }
+      .mini-ui { position: relative; background: var(--paper-2); border-bottom: 1px solid var(--line); padding: 0; }
+      .mini-bar { display: flex; gap: 5px; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+      .mini-bar i { width: 7px; height: 7px; border-radius: 50%; background: #cfcdc4; }
+      .mini-rows { padding: 16px; display: flex; flex-direction: column; gap: 9px; min-height: 92px; }
+      .mini-rows span { height: 9px; background: var(--ink); opacity: 0.13; border-radius: 3px; }
+      .mini-rows span.hot { background: var(--accent); opacity: 0.55; height: 13px; }
+      .w30 { width: 30%; } .w40 { width: 40%; } .w50 { width: 50%; } .w60 { width: 60%; } .w70 { width: 70%; } .w80 { width: 80%; }
+      .mini-chart { display: flex; align-items: flex-end; gap: 8px; padding: 16px; min-height: 92px; }
+      .mini-chart b { flex: 1; background: var(--ink); opacity: 0.13; border-radius: 3px 3px 0 0; }
+      .mini-chart b.hot { background: var(--accent); opacity: 0.55; }
+      .card:hover .mini-rows span:not(.hot), .card:hover .mini-chart b:not(.hot) { opacity: 0.22; }
+      .ic { position: absolute; top: 9px; right: 9px; width: 32px; height: 32px; display: grid; place-items: center; color: var(--accent-ink); background: var(--paper); border: 1px solid var(--line); z-index: 2; transition: border-color 0.18s, background 0.18s; }
+      .ic svg { width: 18px; height: 18px; }
+      .card:hover .ic { border-color: var(--accent); background: var(--accent-soft); }
+      .card-body { padding: 1.1rem 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.55rem; flex: 1; }
+      .card-tags { display: flex; gap: 0.4rem; }
+      .card h3 { font-size: 1.08rem; line-height: 1.2; letter-spacing: -0.01em; }
+      .card p { font-size: 0.86rem; color: var(--ink-soft); flex: 1; }
+      .card-link { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-ink); text-decoration: none; margin-top: 0.3rem; }
+      .card:hover .card-link { text-decoration: underline; }
+      .card.is-hidden { display: none; }
+
+      .foot { margin-top: clamp(2rem, 5vw, 3.5rem); margin-bottom: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+      .foot p { color: var(--ink-soft); font-size: 0.88rem; flex: 1; min-width: 200px; }
+      .foot-mono { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; color: var(--ink-soft); text-decoration: none; }
+      .foot-mono:hover { color: var(--ink); }
+
+      a:focus-visible, button:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+      @media (max-width: 860px) {
+        .grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 560px) {
+        .grid { grid-template-columns: 1fr; }
+      }
+    </style>
+
+    <script>
+      const grid = document.getElementById('grid');
+      const filters = document.getElementById('filters');
+      filters.addEventListener('click', (e) => {
+        const btn = e.target.closest('.chip');
+        if (!btn) return;
+        filters.querySelectorAll('.chip').forEach((c) => c.classList.toggle('is-active', c === btn));
+        const f = btn.dataset.filter;
+        grid.querySelectorAll('.card').forEach((card) => card.classList.toggle('is-hidden', f !== 'all' && card.dataset.sector !== f));
+      });
+    </script>
+  </body>
+</html>
