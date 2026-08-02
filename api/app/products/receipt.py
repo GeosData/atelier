@@ -35,6 +35,7 @@ receipt = register(
             "explain in notes. Set confidence to your overall certainty about the totals."
         ),
         output_schema=Receipt,
-        accepted_mime=("image/jpeg", "image/png", "image/webp"),
+        accepted_mime=("image/jpeg", "image/png", "image/webp", "application/pdf"),
+        subtitle="Foto de una factura o recibo y devuelve los datos listos para tu contabilidad.",
     )
 )

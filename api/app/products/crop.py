@@ -49,5 +49,6 @@ crop = register(
         output_schema=CropDiagnosis,
         accepted_mime=("image/jpeg", "image/png", "image/webp"),
         context=CARIBBEAN_CROP_GUIDE,
+        subtitle="Foto de la hoja o el fruto y te dice que plaga o enfermedad tiene y como tratarla.",
     )
 )

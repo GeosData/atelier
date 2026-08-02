@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Atelier</title>
+<style>
+  :root { --ink:#1c1a17; --pino:#2f5d50; --paper:#f4f1ea; --line:#d8d2c4; --muted:#6b6355; --flag:#a23b2d; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.55 ui-monospace,"SFMono-Regular",Menlo,monospace; color:var(--ink); background:var(--paper); }
+  main { max-width:680px; margin:0 auto; padding:48px 20px; }
+  a.back { color:var(--muted); text-decoration:none; font-size:.9rem; }
+  h1 { font-size:1.5rem; margin:14px 0 4px; }
+  p.sub { margin:0 0 28px; color:var(--muted); }
+  .drop { border:2px dashed var(--line); border-radius:10px; padding:36px; text-align:center; cursor:pointer; background:#fff; transition:border-color .15s; }
+  .drop:hover, .drop.over { border-color:var(--pino); }
+  input[type=file] { display:none; }
+  .row { display:flex; gap:12px; align-items:center; margin-top:18px; }
+  button { background:var(--pino); color:#fff; border:0; border-radius:8px; padding:12px 22px; font:inherit; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:default; }
+  img#preview { max-width:100%; border-radius:10px; margin-top:16px; display:none; }
+  #status { color:var(--muted); font-size:.9rem; }
+  .result { margin-top:26px; }
+  .field { border-bottom:1px solid var(--line); padding:9px 0; display:flex; gap:14px; }
+  .field .k { color:var(--muted); min-width:150px; }
+  .field .v { flex:1; word-break:break-word; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin:10px 0; }
+  .card.flag { border-color:var(--flag); }
+  .badge { display:inline-block; font-size:.72rem; padding:2px 8px; border-radius:999px; background:var(--flag); color:#fff; margin-left:8px; }
+  h3.group { margin:22px 0 6px; font-size:.95rem; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="index.html">← herramientas</a>
+  <h1 id="title">…</h1>
+  <p class="sub" id="subtitle"></p>
+
+  <label class="drop" id="drop">
+    <span id="dropText">Arrastrá un archivo o hacé clic</span>
+    <input type="file" id="file" />
+  </label>
+  <img id="preview" alt="" />
+  <div class="row">
+    <button id="send" disabled>Procesar</button>
+    <span id="status"></span>
+  </div>
+  <div class="result" id="out"></div>
+</main>
+<script>
+  const API = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+    ? "http://localhost:8080" : "https://api.atelier.geosdata.com";
+  const slug = new URLSearchParams(location.search).get("p");
+  const file = document.getElementById("file");
+  const drop = document.getElementById("drop");
+  const send = document.getElementById("send");
+  const out = document.getElementById("out");
+  const statusEl = document.getElementById("status");
+  const preview = document.getElementById("preview");
+  const dropText = document.getElementById("dropText");
+  let current = null;
+
+  fetch(`${API}/products`).then(r => r.json()).then(list => {
+    const p = list.find(x => x.slug === slug);
+    if (!p) { document.getElementById("title").textContent = "Herramienta no encontrada"; return; }
+    document.getElementById("title").textContent = p.title;
+    document.getElementById("subtitle").textContent = p.subtitle || "";
+    document.title = "Atelier — " + p.title;
+    if (p.accept) file.accept = p.accept.join(",");
+  });
+
+  function pick(f) {
+    if (!f) return;
+    current = f;
+    dropText.textContent = f.name;
+    if (f.type.startsWith("image/")) { preview.src = URL.createObjectURL(f); preview.style.display = "block"; }
+    else { preview.style.display = "none"; }
+    send.disabled = false;
+  }
+  file.addEventListener("change", () => pick(file.files[0]));
+  ["dragover","dragenter"].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave","drop"].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", ev => pick(ev.dataTransfer.files[0]));
+
+  function humanize(k) { return k.replace(/_/g, " ").replace(/^\w/, c => c.toUpperCase()); }
+
+  function renderValue(v) {
+    if (v === null || v === undefined || v === "") return "—";
+    if (typeof v === "boolean") return v ? "sí" : "no";
+    return String(v);
+  }
+
+  function renderObject(obj) {
+    let html = "";
+    for (const [k, v] of Object.entries(obj)) {
+      if (Array.isArray(v)) {
+        html += `<h3 class="group">${humanize(k)}</h3>`;
+        if (!v.length) { html += `<div class="field"><span class="v">—</span></div>`; continue; }
+        v.forEach(item => {
+          if (item && typeof item === "object") {
+            const flagged = item.mastery_flag === true;
+            html += `<div class="card${flagged ? " flag" : ""}">${renderObject(item)}</div>`;
+          } else {
+            html += `<div class="card">${renderValue(item)}</div>`;
+          }
+        });
+      } else if (v && typeof v === "object") {
+        html += `<h3 class="group">${humanize(k)}</h3><div class="card">${renderObject(v)}</div>`;
+      } else {
+        html += `<div class="field"><span class="k">${humanize(k)}</span><span class="v">${renderValue(v)}</span></div>`;
+      }
+    }
+    return html;
+  }
+
+  send.addEventListener("click", async () => {
+    if (!current || !slug) return;
+    send.disabled = true;
+    statusEl.textContent = "Procesando…";
+    out.innerHTML = "";
+    const body = new FormData();
+    body.append("file", current);
+    try {
+      const res = await fetch(`${API}/process/${slug}`, { method:"POST", body });
+      const data = await res.json();
+      if (!res.ok) { statusEl.textContent = `Error ${res.status}: ${data.detail || ""}`; }
+      else { statusEl.textContent = ""; out.innerHTML = renderObject(data.result); }
+    } catch (e) {
+      statusEl.textContent = "Error de red";
+    } finally {
+      send.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

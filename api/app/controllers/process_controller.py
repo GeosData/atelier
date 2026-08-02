@@ -31,6 +31,12 @@ async def handle(slug: str, file: UploadFile) -> dict:
 
 def catalog() -> list[dict]:
     return [
-        {"slug": p.slug, "title": p.title, "input": p.input_kind.value}
+        {
+            "slug": p.slug,
+            "title": p.title,
+            "subtitle": p.subtitle,
+            "input": p.input_kind.value,
+            "accept": list(p.accepted_mime),
+        }
         for p in list_products()
     ]

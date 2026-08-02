@@ -25,5 +25,6 @@ waste = register(
         ),
         output_schema=WasteClassification,
         accepted_mime=("image/jpeg", "image/png", "image/webp"),
+        subtitle="Foto de un residuo y te dice en que caneca va y como separarlo.",
     )
 )

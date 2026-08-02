@@ -62,6 +62,7 @@ exam = register(
             "explain in notes."
         ),
         output_schema=ExamReview,
-        accepted_mime=("image/jpeg", "image/png", "image/webp"),
+        accepted_mime=("image/jpeg", "image/png", "image/webp", "application/pdf"),
+        subtitle="Califica por pregunta y avisa cuando la nota no refleja dominio real.",
     )
 )

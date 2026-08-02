@@ -19,6 +19,7 @@ class Product:
     output_schema: type[BaseModel]
     accepted_mime: tuple[str, ...]
     context: str = ""
+    subtitle: str = ""
 
 
 _registry: dict[str, Product] = {}
