@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Atelier — Factura a datos</title>
+<style>
+  :root { --ink:#1c1a17; --pino:#2f5d50; --paper:#f4f1ea; --line:#d8d2c4; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.5 ui-monospace,"SFMono-Regular",Menlo,monospace; color:var(--ink); background:var(--paper); }
+  main { max-width:640px; margin:0 auto; padding:48px 20px; }
+  h1 { font-size:1.6rem; margin:0 0 4px; }
+  p.sub { margin:0 0 32px; color:#6b6355; }
+  .drop { border:2px dashed var(--line); border-radius:10px; padding:40px; text-align:center; cursor:pointer; background:#fff; transition:border-color .15s; }
+  .drop:hover, .drop.over { border-color:var(--pino); }
+  input[type=file] { display:none; }
+  button { margin-top:16px; background:var(--pino); color:#fff; border:0; border-radius:8px; padding:12px 20px; font:inherit; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:default; }
+  pre { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; overflow:auto; margin-top:24px; }
+  .row { display:flex; gap:12px; align-items:center; margin-top:20px; }
+  img#preview { max-width:100%; border-radius:10px; margin-top:16px; display:none; }
+  .conf { font-weight:700; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Factura a datos</h1>
+  <p class="sub">Subí una foto de una factura o recibo. Devuelve los datos estructurados.</p>
+
+  <label class="drop" id="drop">
+    <span id="dropText">Arrastrá una imagen o hacé clic</span>
+    <input type="file" id="file" accept="image/*" />
+  </label>
+  <img id="preview" alt="" />
+  <div class="row">
+    <button id="send" disabled>Procesar</button>
+    <span id="status"></span>
+  </div>
+  <pre id="out" hidden></pre>
+</main>
+<script>
+  const API = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+    ? "http://localhost:8080" : "https://api.atelier.geosdata.com";
+  const file = document.getElementById("file");
+  const drop = document.getElementById("drop");
+  const send = document.getElementById("send");
+  const out = document.getElementById("out");
+  const statusEl = document.getElementById("status");
+  const preview = document.getElementById("preview");
+  const dropText = document.getElementById("dropText");
+  let current = null;
+
+  function pick(f) {
+    if (!f) return;
+    current = f;
+    dropText.textContent = f.name;
+    preview.src = URL.createObjectURL(f);
+    preview.style.display = "block";
+    send.disabled = false;
+  }
+  file.addEventListener("change", () => pick(file.files[0]));
+  ["dragover","dragenter"].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave","drop"].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", ev => pick(ev.dataTransfer.files[0]));
+
+  send.addEventListener("click", async () => {
+    if (!current) return;
+    send.disabled = true;
+    statusEl.textContent = "Procesando…";
+    out.hidden = true;
+    const body = new FormData();
+    body.append("file", current);
+    try {
+      const res = await fetch(`${API}/process/receipt`, { method:"POST", body });
+      const data = await res.json();
+      out.hidden = false;
+      out.textContent = JSON.stringify(data.result ?? data, null, 2);
+      statusEl.textContent = res.ok ? "" : `Error ${res.status}`;
+    } catch (e) {
+      statusEl.textContent = "Error de red";
+    } finally {
+      send.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
