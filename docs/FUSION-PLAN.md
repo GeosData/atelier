@@ -22,11 +22,11 @@
 1. **[hecho]** Motor soporta tipo determinista + `punto-equilibrio` portada (prueba e2e).
 2. **[hecho]** 7 calculadoras restantes portadas a `tools/` (fórmulas transcritas fielmente, auditadas, 8 tools VIVAS en prod `/compute` rev 00003).
 3. **[hecho 3a]** Front Astro de geosdata-com COPIADO a `atelier/web` (43 rutas, build OK). Dirección elegida: (a) mover, no reconstruir. Galería estática vieja en `web/_legacy-static/`. Sitio vivo geosdata-com intacto.
-4. **[pendiente] Integración del front** (reversible, no toca prod):
-   - Rewire de las 8 páginas de calculadora Astro → llamar `POST /compute/{slug}` (hoy tienen la lógica inline duplicada; converger a la del motor).
-   - Páginas Astro para las 4 tools de IA (receipt/exam/crop/waste) → `POST /process/{slug}` (hoy solo estaban en la galería estática, respaldada).
-   - Home/taller lista también las tools de IA.
-   - Mejora de diseño (matar look Inter) — después, no bloquear.
+4. **[hecho] Integración del front** (reversible, no tocó prod):
+   - **[hecho]** 4 páginas Astro de tools de IA (`factura-a-datos`, `revisor-de-examenes`, `diagnostico-de-cultivo`, `clasificador-de-residuos`) → `POST /process/{slug}`, render formateado (exam resalta mastery_flag). Matchean el diseño de las calculadoras (Archivo + IBM Plex Mono, acento pino). Verificado visualmente en preview.
+   - **[hecho]** Taller lista las 4 tools de IA (cards + filtro "IA").
+   - **[DECIDIDO NO]** Rewire calculadoras → `/compute`: se quedan client-side (mejor UX: instantáneo, offline, cero costo servidor). Las 8 tools `/compute` quedan como superficie de API sin usar por la web (riesgo de drift de fórmula; decisión keep/remove pendiente, no urge).
+   - Nota diseño: las calculadoras/tools NO usan Inter (usan Archivo+IBM Plex Mono); el look ya es distintivo. Inter solo en tokens globales, revisable aparte.
 5. **[gated] Cutover DNS** geosdata.com → deploy Astro de atelier. Verificar en pages.dev primero. Solo con go de Josse.
 6. **[gated] Retirar geosdata-com** (repo/deploy) solo tras cutover verificado.
 
