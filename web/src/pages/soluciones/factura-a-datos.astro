@@ -84,7 +84,7 @@ const description = 'Sube la foto o el PDF de una factura y extrae proveedor, do
     </div>
 
     <script is:inline>
-      const API = 'https://atelier-448285277410.us-central1.run.app/process/receipt';
+      const API = 'https://api.atelier.geosdata.com/process/receipt';
 
       const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
       const conf = (x) => {

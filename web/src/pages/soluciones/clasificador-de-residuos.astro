@@ -84,7 +84,7 @@ const description = 'Sube una foto de un residuo y la IA te dice en qué caneca 
     </div>
 
     <script is:inline>
-      const API = 'https://atelier-448285277410.us-central1.run.app/process/waste';
+      const API = 'https://api.atelier.geosdata.com/process/waste';
 
       const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
       const conf = (x) => {

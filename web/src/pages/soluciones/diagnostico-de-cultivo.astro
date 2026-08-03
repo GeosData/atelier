@@ -85,7 +85,7 @@ const description = 'Sube una foto de la hoja o el fruto de tu cultivo y recibe 
     </div>
 
     <script is:inline>
-      const API = 'https://atelier-448285277410.us-central1.run.app/process/crop';
+      const API = 'https://api.atelier.geosdata.com/process/crop';
 
       const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
       const conf = (x) => {

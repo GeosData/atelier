@@ -85,7 +85,7 @@ const description = 'Sube un examen resuelto y obtén la nota, el detalle por pr
     </div>
 
     <script is:inline>
-      const API = 'https://atelier-448285277410.us-central1.run.app/process/exam';
+      const API = 'https://api.atelier.geosdata.com/process/exam';
 
       const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
       const conf = (x) => {
