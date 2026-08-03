@@ -30,7 +30,7 @@
 5. **[gated] Cutover DNS** geosdata.com → deploy Astro de atelier. Verificar en pages.dev primero. Solo con go de Josse.
 6. **[gated] Retirar geosdata-com** (repo/deploy) solo tras cutover verificado.
 
-## Conexión distribuidora → productos (plan Camino 1, gated, listo para go)
+## Conexión distribuidora → productos (Camino 1 — HECHO 2026-08-02)
 
 Estado 2026-08-02: geosdata.com (CF Pages `geosdata-com`, repo `F:\geosdata\geosdata-com`) NO menciona atelier — desconectado. Su taller (`Home.astro §taller`) lista cards desde `i18n/home.ts` (`cards[].href` → sus propias `/soluciones/*`). Las calculadoras existen en LOS DOS dominios = contenido duplicado; y las páginas de calculadora en atelier tienen `canonical` → geosdata.com (heredado de la copia).
 
