@@ -35,7 +35,7 @@ const description = 'Calcula gratis cuánta retención en la fuente debes practi
 
       <main class="tool">
         <section class="intro">
-          <p class="eyebrow">Producto · retención en la fuente</p>
+          <span class="eyebrow">retención en la fuente</span>
           <h1>¿Cuánta retención debes practicar en un pago?</h1>
           <p class="lead">
             Cuando le pagas a un proveedor, a veces toca retener y a veces no: depende del concepto, del monto y de si
@@ -230,7 +230,7 @@ const description = 'Calcula gratis cuánta retención en la fuente debes practi
       .back:hover { color: var(--accent-ink); }
 
       .tool { max-width: var(--wrap); margin: 0 auto; padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2rem) 5rem; display: flex; flex-direction: column; gap: 2.5rem; }
-      .eyebrow { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72rem; color: var(--accent-ink); margin-bottom: 1rem; }
+      .eyebrow { display: inline-block; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.6rem; color: var(--ink-soft); border: 1px solid var(--line); background: var(--paper); padding: 0.28rem 0.6rem; margin-bottom: 1.1rem; }
       h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); color: var(--ink); line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 1.1rem; font-weight: 800; text-wrap: balance; }
       .lead { font-size: 1.08rem; color: #2c332c; max-width: 60ch; }
 
