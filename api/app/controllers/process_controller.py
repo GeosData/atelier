@@ -2,7 +2,7 @@ from fastapi import HTTPException, UploadFile, status
 
 from app.config import get_settings
 from app.products.registry import get_product, list_products
-from app.services import engine
+from app.services import engine, usage
 from app.services.engine import UnsupportedMimeError
 
 
@@ -31,6 +31,7 @@ async def handle(slug: str, file: UploadFile) -> dict:
             "no se pudo procesar el archivo, intentá de nuevo en un momento",
         )
 
+    await usage.record(product.slug, True)
     return {"product": product.slug, "result": result.model_dump()}
 
 
