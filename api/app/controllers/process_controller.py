@@ -1,9 +1,14 @@
+import logging
+
 from fastapi import HTTPException, UploadFile, status
+from starlette.concurrency import run_in_threadpool
 
 from app.config import get_settings
 from app.products.registry import get_product, list_products
 from app.services import engine, usage
 from app.services.engine import UnsupportedMimeError
+
+logger = logging.getLogger("atelier.process")
 
 
 async def handle(slug: str, file: UploadFile) -> dict:
@@ -11,21 +16,23 @@ async def handle(slug: str, file: UploadFile) -> dict:
     if product is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, f"unknown product: {slug}")
 
-    content = await file.read()
+    max_bytes = get_settings().max_upload_bytes
+    content = await file.read(max_bytes + 1)
     if not content:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "empty file")
-    if len(content) > get_settings().max_upload_bytes:
+    if len(content) > max_bytes:
         raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, "file too large")
 
     mime = file.content_type or ""
     try:
-        result = engine.run(product, content, mime)
+        result = await run_in_threadpool(engine.run, product, content, mime)
     except UnsupportedMimeError:
         raise HTTPException(
             status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
             f"{mime} not accepted, expected {product.accepted_mime}",
         )
     except Exception:
+        logger.exception("processing failed for slug=%s", product.slug)
         raise HTTPException(
             status.HTTP_502_BAD_GATEWAY,
             "no se pudo procesar el archivo, intentá de nuevo en un momento",
